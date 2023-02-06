@@ -381,7 +381,7 @@ namespace ARLocation
             else
             {
                 List<ARRaycastHit> hits = new List<ARRaycastHit>();
-                arRaycastManager.Raycast(ray, hits, trackableTypes: UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinInfinity);
+                arRaycastManager.Raycast(ray, hits, trackableTypes: UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinInfinity);//4
 
                 if (hits.Count > 0)
                 {

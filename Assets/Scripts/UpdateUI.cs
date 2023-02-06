@@ -39,6 +39,7 @@ public class UpdateUI : MonoBehaviour
     public void OnClickFilterBtn()
     {
         GlobalSetting.camera_filter_state = !GlobalSetting.camera_filter_state;
+        //print(GlobalSetting.camera_filter_state);
     }
 
 

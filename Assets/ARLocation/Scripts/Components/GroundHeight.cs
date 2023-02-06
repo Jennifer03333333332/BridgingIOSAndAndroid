@@ -5,6 +5,7 @@ using UnityEngine;
 #if !ARGPS_USE_VUFORIA
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using Unity.XR.CoreUtils;
 #endif
 
 #pragma warning disable
@@ -71,7 +72,7 @@ namespace ARLocation
         void Start()
         {
             arPlaneManager = FindObjectOfType<ARPlaneManager>();
-            var arSessionOrigin = FindObjectOfType<ARSessionOrigin>();
+            var arSessionOrigin = FindObjectOfType<XROrigin>();//3
             mainCamera = ARLocationManager.Instance.MainCamera;
 
             if (arPlaneManager == null)

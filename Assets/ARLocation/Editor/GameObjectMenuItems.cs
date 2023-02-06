@@ -3,6 +3,7 @@ using UnityEditor;
 
 #if !ARGPS_USE_VUFORIA
 using UnityEngine.XR.ARFoundation;
+using Unity.XR.CoreUtils;
 #endif
 
 namespace ARLocation
@@ -17,7 +18,7 @@ namespace ARLocation
             go.AddComponent<ARLocationManager>();
             go.AddComponent<ARLocationProvider>();
 
-            var arSessionOrigin = GameObject.Find("AR Session Origin");//
+            var arSessionOrigin = GameObject.Find("XR Origin");//1
 
             if (arSessionOrigin != null)
             {
@@ -91,7 +92,7 @@ namespace ARLocation
                 camera.farClipPlane = 1000.0f;
             }
 
-            var arSessionOrigin = Object.FindObjectOfType<ARSessionOrigin>().gameObject;
+            var arSessionOrigin = Object.FindObjectOfType<XROrigin>().gameObject;//2
             arSessionOrigin.AddComponent<ARPlaneManager>();
 
             var stage = CreateGpsStageObject();
