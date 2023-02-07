@@ -1,1 +1,15 @@
-<ArGpsLocationData><Entry><id>0</id><lat>40.43376112747512</lat><lng>-79.96418175221174</lng><altitude>0</altitude><altitudeMode>GroundRelative</altitudeMode><name>GiantETCMesh</name><meshId>GiantETCMeshID</meshId><movementSmoothing>0.05</movementSmoothing><maxNumberOfLocationUpdates>0</maxNumberOfLocationUpdates><useMovingAverage>false</useMovingAverage><hideObjectUtilItIsPlaced>true</hideObjectUtilItIsPlaced></Entry></ArGpsLocationData>
+<ArGpsLocationData><Entry><id>0</id><lat>40.43376112747512</lat><lng>-79.96418175221174</lng><altitude>0</altitude><altitudeMode>GroundRelative</altitudeMode><name>GiantETCMesh</name><meshId>GiantETCMeshID</meshId><movementSmoothing>0.05</movementSmoothing><maxNumberOfLocationUpdates>0</maxNumberOfLocationUpdates><useMovingAverage>false</useMovingAverage><hideObjectUtilItIsPlaced>true</hideObjectUtilItIsPlaced></Entry>
+	<Entry>
+		<id>1</id>
+		<lat>40.428578744614214</lat>
+		<lng>-79.9584028093946</lng>
+		<altitude>0</altitude>
+		<altitudeMode>GroundRelative</altitudeMode>
+		<name>Furnace</name>
+		<meshId>FurnaceID</meshId>
+		<movementSmoothing>0.05</movementSmoothing>
+		<maxNumberOfLocationUpdates>0</maxNumberOfLocationUpdates>
+		<useMovingAverage>false</useMovingAverage>
+		<hideObjectUtilItIsPlaced>true</hideObjectUtilItIsPlaced>
+	</Entry>
+</ArGpsLocationData>
