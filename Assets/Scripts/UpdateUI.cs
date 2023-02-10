@@ -7,13 +7,38 @@ public class UpdateUI : MonoBehaviour
 {
     public GameObject Debug_Menu;
     public GameObject Scale_Text;
-    public int scale_x;
+    public GameObject DebugInfo;
+    public GameObject Offset_Text;
+
+    private float delta = 0.25f;
+    private float FacDelta = 1f;
+
     //Change scale slider
     public void OnScaleUpdate(float value)
     {
-        scale_x = (int)value;
-        GlobalSetting.cube_scale = scale_x;
+        switch (GlobalSetting.currentMesh) {
+            case MeshType.Giantbox:
+                {
+                    break;
+                }
+            case MeshType.Train:
+                {
+                    TrainSetting.scale = value;
+                    break;
+                }
+            case MeshType.Factory:
+                {
+                    FactorySetting.scale = value;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }  
     }
+
+
 
     //Open/close debug menu
     public void OnClickDebugBtn()
@@ -35,13 +60,176 @@ public class UpdateUI : MonoBehaviour
         //print(GlobalSetting.camera_filter_state);
     }
 
+    //Change pos
+    public void OnClickUp()
+    {
+        
+        switch (GlobalSetting.currentMesh)
+        {
+            case MeshType.Giantbox:
+                {
+                    break;
+                }
+            case MeshType.Train:
+                {
+                    TrainSetting.UpdatingPos = true;
+                    TrainSetting.pos.y += delta;
+                    break;
+                }
+            case MeshType.Factory:
+                {
+                    FactorySetting.UpdatingPos = true;
+                    //print(GlobalSetting.UpdatingPos);
+                    //print(FactorySetting.pos);
+                    FactorySetting.pos.y += FacDelta;
+                    break;
+                }
+            default:
+                {
+                    
+                    break;
+                }
+        }
+    }
+    public void OnClickDown()
+    {
+        switch (GlobalSetting.currentMesh)
+        {
+            case MeshType.Giantbox:
+                {
+                    break;
+                }
+            case MeshType.Train:
+                {
+                    TrainSetting.UpdatingPos = true;
+                    TrainSetting.pos.y -= delta;
+                    break;
+                }
+            case MeshType.Factory:
+                {
+                    FactorySetting.UpdatingPos = true;
+                    FactorySetting.pos.y -= FacDelta;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    }
+    public void OnClickLeft()
+    {
+        switch (GlobalSetting.currentMesh)
+        {
+            case MeshType.Giantbox:
+                {
+                    break;
+                }
+            case MeshType.Train:
+                {
+                    TrainSetting.UpdatingPos = true;
+                    TrainSetting.pos.x -= delta;
+                    break;
+                }
+            case MeshType.Factory:
+                {
+                    FactorySetting.UpdatingPos = true;
+                    FactorySetting.pos.x -= FacDelta;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    }
+    public void OnClickRight()
+    {
+        switch (GlobalSetting.currentMesh)
+        {
+            case MeshType.Giantbox:
+                {
+                    break;
+                }
+            case MeshType.Train:
+                {
+                    TrainSetting.UpdatingPos = true;
+                    TrainSetting.pos.x += delta;
+                    break;
+                }
+            case MeshType.Factory:
+                {
+                    FactorySetting.UpdatingPos = true;
+                    FactorySetting.pos.x += FacDelta;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    }
+
+    //change rotation
+    public void OnChangeRotation()
+    {
+        switch (GlobalSetting.currentMesh)
+        {
+            case MeshType.Giantbox:
+                {
+                    break;
+                }
+            case MeshType.Train:
+                {
+                    TrainSetting.UpdatingRot = true;
+                    break;
+                }
+            case MeshType.Factory:
+                {
+                    FactorySetting.UpdatingRot = true;
+                    break;
+                }
+            default:
+                {
+
+                    break;
+                }
+        }
+    }
+
 
     private void Update()
     {
         //print(Scale_Text.GetComponent<Text>());
 
         //show current scale on UI
-        Scale_Text.GetComponent<Text>().text = "Scale: " + scale_x;
-        
+        //Train_Scale_Text.GetComponent<Text>().text = "Train Scale: " + TrainSetting.scale;
+        //Fac_Scale_Text.GetComponent<Text>().text = "Factory Scale: " + FactorySetting.scale;
+        //Offset_Text.GetComponent<Text>().text = "Offset: " + scale_x;
+
+        switch (GlobalSetting.currentMesh)
+        {
+            case MeshType.Giantbox:
+                {
+                    break;
+                }
+            case MeshType.Train:
+                {
+                    Scale_Text.GetComponent<Text>().text = "Train Scale: " + TrainSetting.scale;
+
+                    break;
+                }
+            case MeshType.Factory:
+                {
+                    Scale_Text.GetComponent<Text>().text = "Factory Scale: " + FactorySetting.scale;
+
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+
     }
 }

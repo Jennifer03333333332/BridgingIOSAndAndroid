@@ -23,6 +23,7 @@ public class RenderOldFilm : MonoBehaviour
     public float dustYSpeed = 10.0f;
     public float dustXSpeed = 10.0f;
 
+    public float random_range = 0.7f;//-1f, 1f
     public float render_frame_interval = 10.0f;
     public float current_frame = 0.0f;
 
@@ -111,8 +112,8 @@ public class RenderOldFilm : MonoBehaviour
     void Update()
     {
         vignetteAmount = Mathf.Clamp01(vignetteAmount);
-        OldFilmEffectAmount = Mathf.Clamp(OldFilmEffectAmount, 0f, 0.8f);//OldFilmEffectAmount, 0f, 1.5f
-        randomValue = Random.Range(-0.5f, 0.5f);//-1f, 1f
+        OldFilmEffectAmount = Mathf.Clamp(OldFilmEffectAmount, 0f, 1.0f);//OldFilmEffectAmount, 0f, 1.5f
+        randomValue = Random.Range(0f - random_range, random_range);
         //Open/close filter
         //if (GlobalSetting.camera_filter_state != enabled)
         //{

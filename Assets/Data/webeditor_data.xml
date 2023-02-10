@@ -1,12 +1,42 @@
-<ArGpsLocationData><Entry><id>0</id><lat>40.43376112747512</lat><lng>-79.96418175221174</lng><altitude>0</altitude><altitudeMode>GroundRelative</altitudeMode><name>GiantETCMesh</name><meshId>GiantETCMeshID</meshId><movementSmoothing>0.05</movementSmoothing><maxNumberOfLocationUpdates>0</maxNumberOfLocationUpdates><useMovingAverage>false</useMovingAverage><hideObjectUtilItIsPlaced>true</hideObjectUtilItIsPlaced></Entry>
+<ArGpsLocationData>
 	<Entry>
-		<id>1</id>
-		<lat>40.428578744614214</lat>
-		<lng>-79.9584028093946</lng>
+		<id>0</id>
+		<lat>40.43376112747512</lat>
+		<lng>-79.96418175221174</lng>
 		<altitude>0</altitude>
 		<altitudeMode>GroundRelative</altitudeMode>
-		<name>Furnace</name>
-		<meshId>FurnaceID</meshId>
+		<name>GiantETCMesh</name>
+		<meshId>GiantETCMeshID</meshId>
+		<movementSmoothing>0.05</movementSmoothing>
+		<maxNumberOfLocationUpdates>0</maxNumberOfLocationUpdates>
+		<useMovingAverage>false</useMovingAverage>
+		<hideObjectUtilItIsPlaced>true</hideObjectUtilItIsPlaced>
+	</Entry>
+	<Entry>
+		<!--Train, near ETC-->
+		<!--https://www.google.com/maps/place/40%C2%B025'56.5%22N+79%C2%B057'54.5%22W/@40.4323554,-79.9659238,18z/data=!3m1!4b1!4m4!3m3!8m2!3d40.432354!4d-79.96515-->
+		<id>1</id>
+		<lat>40.43228630929852</lat> 
+		<lng>-79.96503105746532</lng>
+		<altitude>0</altitude>
+		<altitudeMode>GroundRelative</altitudeMode>
+		<name>Train</name>
+		<meshId>TrainID</meshId>
+		<movementSmoothing>0.05</movementSmoothing>
+		<maxNumberOfLocationUpdates>0</maxNumberOfLocationUpdates>
+		<useMovingAverage>false</useMovingAverage>
+		<hideObjectUtilItIsPlaced>true</hideObjectUtilItIsPlaced>
+	</Entry>
+	<Entry>
+		<!--Factory, south side of river-->
+		<!--https://www.google.com/maps/place/40%C2%B025'47.0%22N+79%C2%B057'59.4%22W/@40.429733,-79.9686827,17z/data=!3m1!4b1!4m4!3m3!8m2!3d40.429733!4d-79.966494-->
+		<id>2</id>
+		<lat>40.429733</lat>
+		<lng>-79.966494</lng>
+		<altitude>0</altitude>
+		<altitudeMode>GroundRelative</altitudeMode>
+		<name>Factory</name>
+		<meshId>FactoryID</meshId>
 		<movementSmoothing>0.05</movementSmoothing>
 		<maxNumberOfLocationUpdates>0</maxNumberOfLocationUpdates>
 		<useMovingAverage>false</useMovingAverage>

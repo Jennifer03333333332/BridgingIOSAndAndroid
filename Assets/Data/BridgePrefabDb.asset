@@ -15,5 +15,7 @@ MonoBehaviour:
   Entries:
   - MeshId: GiantETCMeshID
     Prefab: {fileID: 8597036760674038255, guid: a05bae6b5ce9fb348bfa2a4a1b7a96ef, type: 3}
-  - MeshId: FurnaceID
-    Prefab: {fileID: 919132149155446097, guid: c3be3742dc8fb414db8f99fbcbe71edb, type: 3}
+  - MeshId: TrainID
+    Prefab: {fileID: 5073465474917867043, guid: 87aef15d2d01ce642b3e9dd90c6d8589, type: 3}
+  - MeshId: FactoryID
+    Prefab: {fileID: 5869602606871314482, guid: a610733ec25f47049a69ebb3991bf169, type: 3}
