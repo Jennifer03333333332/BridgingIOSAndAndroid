@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5073465474917867042}
   - component: {fileID: 1987538813183383139}
-  - component: {fileID: 3419025134074905183}
+  - component: {fileID: 4824626944276557940}
   m_Layer: 0
   m_Name: Train
   m_TagString: Untagged
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeshPart: {fileID: 2798751933747078768}
   mesh: 1
---- !u!114 &3419025134074905183
+--- !u!114 &4824626944276557940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,6 +256,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 5073465474917867043}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e06aecd5496ef114394b1ea06ae825be, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ed08d66cc34e4c49bf4ebb7b1ac269a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LocationOptions:
+    LocationInput:
+      LocationInputType: 0
+      LocationData: {fileID: 0}
+      Location:
+        Latitude: 40.43228630929852
+        Longitude: -79.96503105746532
+        Altitude: 0
+        AltitudeMode: 2
+        Label: 
+      OverrideAltitudeData:
+        OverrideAltitude: 0
+        Altitude: 0
+        AltitudeMode: 0
+  PlacementOptions:
+    MovementSmoothing: 0.05
+    MaxNumberOfLocationUpdates: 4
+    UseMovingAverage: 0
+    HideObjectUntilItIsPlaced: 1
+    ShowObjectAfterThisManyUpdates: 1
+  DebugMode: 0
+  ObjectLocationUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  ObjectPositionUpdated:
+    m_PersistentCalls:
+      m_Calls: []

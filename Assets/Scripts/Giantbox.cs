@@ -6,7 +6,7 @@ using UnityEngine;
 public class Giantbox : MonoBehaviour
 {
     private bool init = false;
-    private PlaceAtLocation placeAtComponent;
+    //private PlaceAtLocation placeAtComponent;
     public GameObject MeshPart;
     public MeshType mesh;//for debug mode current mesh
     // Start is called before the first frame update
@@ -20,9 +20,9 @@ public class Giantbox : MonoBehaviour
     {
         if (!init)
         {
-            placeAtComponent = GetComponent<PlaceAtLocation>();
+            //placeAtComponent = GetComponent<PlaceAtLocation>();
             StorePos();//synchronize the position to global settings
-            EnableObjects();//for bug that child object was enabled
+            //EnableObjects();//for bug that child object was enabled
             init = true;
         }
         //if change position per frame: flick
@@ -63,19 +63,30 @@ public class Giantbox : MonoBehaviour
                 }
         }
         //distance
-        var distance = placeAtComponent.SceneDistance;
+        //var distance = placeAtComponent.SceneDistance;
         //for debug info
         if (GlobalSetting.currentMesh == mesh)
         {
             //print(transform.localPosition);
-            //GlobalSetting.debuginfo = "Rot" + MeshPart.transform.localRotation.ToString() + " Pos:" + MeshPart.transform.localPosition.ToString();
-            GlobalSetting.debuginfo = distance.ToString();//show the distance between current mesh and camera
+            GlobalSetting.debuginfo = "Rot" + MeshPart.transform.localRotation.ToString() + " Pos:" + MeshPart.transform.localPosition.ToString();
+            //GlobalSetting.debuginfo = distance.ToString();//show the distance between current mesh and camera
         }
         
     }
-    public void OpenDistanceGuide()
+    public void EnableDistanceGuide(bool enable)
     {
-        gameObject.AddComponent<ARLocation.UI.DebugDistance>();
+        if (enable)
+        {
+            gameObject.AddComponent<ARLocation.UI.DebugDistance>();
+        }
+        else
+        {
+            if (gameObject.GetComponent<ARLocation.UI.DebugDistance>())
+            {
+                Destroy(gameObject.GetComponent<ARLocation.UI.DebugDistance>());
+            }
+        }
+        
     }
 
     void StorePos()
@@ -95,7 +106,7 @@ public class Giantbox : MonoBehaviour
             FactorySetting.pos = MeshPart.transform.localPosition;
         }
     }
-    void EnableObjects()
+    public void EnableObjects()
     {
         if (transform.GetComponent<MeshRenderer>())
         {

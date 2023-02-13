@@ -42,3 +42,4 @@ public static class FactorySetting
     public static bool UpdatingRot = false;
 }
 
+
