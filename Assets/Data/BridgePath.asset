@@ -16,12 +16,12 @@ MonoBehaviour:
   - Latitude: 40.43228630929852
     Longitude: -79.96503105746532
     Altitude: 0
-    AltitudeMode: 0
+    AltitudeMode: 2
     Label: Train
   - Latitude: 40.429733
     Longitude: -79.966494
     Altitude: 0
-    AltitudeMode: 0
+    AltitudeMode: 2
     Label: Factory
   SplineType: 0
   Alpha: 0.5

@@ -7,8 +7,8 @@ public class UpdateUI : MonoBehaviour
 {
     public GameObject Debug_Menu;
     public GameObject Scale_Text;
-    public GameObject DebugInfo;
-    public GameObject Offset_Text;
+    //public GameObject DebugInfo;
+    //public GameObject Offset_Text;
 
     private float delta = 0.25f;
     private float FacDelta = 1f;

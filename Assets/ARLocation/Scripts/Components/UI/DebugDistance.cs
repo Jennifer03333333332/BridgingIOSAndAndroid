@@ -30,7 +30,7 @@ namespace ARLocation.UI
                 {
                     lineRenderer.material = new Material(shader)
                     {
-                        color = new Color(0.3960f, 0.6901f, 0.9725f)
+                        color = new Color(0f, 0f, 0f)//(0.3960f, 0.6901f, 0.9725f)
                     };
                 }
             }

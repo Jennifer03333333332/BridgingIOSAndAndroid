@@ -1,3 +1,4 @@
+using ARLocation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,9 @@ using UnityEngine;
 public class Giantbox : MonoBehaviour
 {
     private bool init = false;
+    private PlaceAtLocation placeAtComponent;
     public GameObject MeshPart;
-    public MeshType mesh;
+    public MeshType mesh;//for debug mode current mesh
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +20,9 @@ public class Giantbox : MonoBehaviour
     {
         if (!init)
         {
-            StorePos();
-            EnableObjects();
+            placeAtComponent = GetComponent<PlaceAtLocation>();
+            StorePos();//synchronize the position to global settings
+            EnableObjects();//for bug that child object was enabled
             init = true;
         }
         //if change position per frame: flick
@@ -35,7 +38,7 @@ public class Giantbox : MonoBehaviour
                 {
                     if (TrainSetting.UpdatingPos)
                     {
-                        TrainSetting.UpdatingPos = false; MeshPart.transform.localPosition = TrainSetting.pos;
+                        TrainSetting.UpdatingPos = false; MeshPart.transform.localPosition = TrainSetting.pos; TrainSetting.Train_worldpos = transform.position;
                     }
                     if (TrainSetting.UpdatingRot)
                     {
@@ -59,13 +62,20 @@ public class Giantbox : MonoBehaviour
                     break;
                 }
         }
+        //distance
+        var distance = placeAtComponent.SceneDistance;
         //for debug info
-        if(GlobalSetting.currentMesh == mesh)
+        if (GlobalSetting.currentMesh == mesh)
         {
             //print(transform.localPosition);
-            GlobalSetting.debuginfo = "Rot" + MeshPart.transform.localRotation.ToString() + " Pos:" + MeshPart.transform.localPosition.ToString();
+            //GlobalSetting.debuginfo = "Rot" + MeshPart.transform.localRotation.ToString() + " Pos:" + MeshPart.transform.localPosition.ToString();
+            GlobalSetting.debuginfo = distance.ToString();//show the distance between current mesh and camera
         }
-
+        
+    }
+    public void OpenDistanceGuide()
+    {
+        gameObject.AddComponent<ARLocation.UI.DebugDistance>();
     }
 
     void StorePos()
@@ -77,6 +87,7 @@ public class Giantbox : MonoBehaviour
         }
         else if (mesh == MeshType.Train)
         {
+            TrainSetting.Train_worldpos = transform.position;
             TrainSetting.pos = MeshPart.transform.localPosition;
         }
         else if (mesh == MeshType.Factory)

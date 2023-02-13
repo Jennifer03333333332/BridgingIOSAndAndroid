@@ -3,23 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MeshType {
-    Giantbox,Train,Factory
+    Giantbox,Train, Factory
 }
+
+//3 spots along the path
+public enum Spots { 
+    one, two, three
+}
+
 
 public static class GlobalSetting
 {
-    //public ArrayList cube_offset;// 0,1,2,3: up, down, left, right
-
     public static float cube_scale;
 
     public static bool camera_filter_state;
 
-    public static MeshType currentMesh = MeshType.Giantbox;
+    public static MeshType currentMesh = MeshType.Giantbox;//for debug
 
     public static string debuginfo = "";
+
+    //3 spots
+    public static Spots currentSpot = Spots.one;
 }
 
 public static class TrainSetting {
+    public static Vector3 Train_worldpos;
     public static Vector3 pos;
     public static float scale = 6;
     public static bool UpdatingPos = false;
