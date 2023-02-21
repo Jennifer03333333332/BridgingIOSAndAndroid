@@ -6,6 +6,9 @@ public class SpotViewPoint : MonoBehaviour
 {
     private bool init;
     public GameObject MeshPart;
+    //
+    public Spots curSpots;
+
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +19,7 @@ public class SpotViewPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!init)
+        if (!init && curSpots == GlobalSetting.currentSpot)
         {
             
             EnableObjects();
@@ -31,7 +34,7 @@ public class SpotViewPoint : MonoBehaviour
         {
             for (int i = 0; i < MeshPart.transform.childCount; i++)
             {
-                print(MeshPart.transform.GetChild(i).gameObject);
+                //print(MeshPart.transform.GetChild(i).gameObject);
                 MeshPart.transform.GetChild(i).gameObject.SetActive(true);
             }
         }

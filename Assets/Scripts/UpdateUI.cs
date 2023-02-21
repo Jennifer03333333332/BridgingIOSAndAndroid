@@ -11,6 +11,7 @@ public class UpdateUI : MonoBehaviour
     public GameObject PopUI;
     public GameObject MapUI;
     public GameObject StartUI;
+    public GameObject NextBtnUI;
     //public GameObject DebugInfo;
     //public GameObject Offset_Text;
 
@@ -26,6 +27,16 @@ public class UpdateUI : MonoBehaviour
         //GameManager.SendMessage("StartTheGame");
         GlobalSetting.StartGame = true;
         StartUI.SetActive(false);
+    }
+    //////////////////////Next btn
+    public void OnShowNextBtn()
+    {
+        NextBtnUI.SetActive(true);
+    }
+    public void OnClickNextBtn()
+    {
+        NextBtnUI.SetActive(false);
+        GameManager.SendMessage("ChangeToNextSpot");
     }
     //////////////////////Map
     public void OnChangeMap()

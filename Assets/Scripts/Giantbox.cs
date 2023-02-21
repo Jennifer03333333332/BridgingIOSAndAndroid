@@ -6,6 +6,8 @@ using UnityEngine;
 public class Giantbox : MonoBehaviour
 {
     private bool init = false;
+    public bool EnableMeshPart = true;
+    public bool OnChanged = false;
     private GameObject GameManager;
 
     //private PlaceAtLocation placeAtComponent;
@@ -22,7 +24,7 @@ public class Giantbox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!init)
+        if (!init && GlobalSetting.StartGame)
         {
             //placeAtComponent = GetComponent<PlaceAtLocation>();
             DisableObjects();
@@ -79,7 +81,6 @@ public class Giantbox : MonoBehaviour
             //GlobalSetting.debuginfo = "Rot" + MeshPart.transform.localRotation.ToString() + " Pos:" + MeshPart.transform.localPosition.ToString();
             //GlobalSetting.debuginfo = distance.ToString();//show the distance between current mesh and camera
         }
-        
 
     }
 
@@ -125,32 +126,68 @@ public class Giantbox : MonoBehaviour
     //When Enter the spot
     public void EnableObjects()
     {
-        //if (transform.GetComponent<MeshRenderer>())
-        //{
-        //    transform.GetComponent<MeshRenderer>().enabled = true;
-        //}
+        MeshPart.gameObject.SetActive(true);
+        GlobalSetting.debuginfo += MeshPart.gameObject.ToString();
+
         if (MeshPart.transform.childCount > 0)
         {
             for(int i = 0; i< MeshPart.transform.childCount; i++)
             {
-                print(MeshPart.transform.GetChild(i).gameObject);
+                //print(MeshPart.transform.GetChild(i).gameObject);
                 MeshPart.transform.GetChild(i).gameObject.SetActive(true);
             }
         }
         //set local position?
-        MeshPart.transform.localPosition = new Vector3(0, 0, 0);
-        StorePos();//synchronize the position to global settings
-        
+        //MeshPart.transform.localPosition = new Vector3(0, 0, 0);
+        //StorePos();//synchronize the position to global settings
     }
     public void DisableObjects()
     {
+        MeshPart.gameObject.SetActive(false);
         if (MeshPart.transform.childCount > 0)
         {
             for (int i = 0; i < MeshPart.transform.childCount; i++)
             {
-                print(MeshPart.transform.GetChild(i).gameObject);
+                //print(MeshPart.transform.GetChild(i).gameObject);
                 MeshPart.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
     }
+
+    //public void ReceiveMsg(bool state)
+    //{
+    //    if(state != EnableMeshPart)
+    //    {
+    //        OnChanged = true;
+    //        EnableMeshPart = state;
+    //    }
+    //}
+    //public void IfObjectsActive()
+    //{
+    //    if (EnableMeshPart)
+    //    {
+    //        if (MeshPart.transform.childCount > 0)
+    //        {
+    //            for (int i = 0; i < MeshPart.transform.childCount; i++)
+    //            {
+    //                //print(MeshPart.transform.GetChild(i).gameObject);
+    //                MeshPart.transform.GetChild(i).gameObject.SetActive(true);
+    //            }
+    //        }
+    //        //set local position?
+    //        MeshPart.transform.localPosition = new Vector3(0, 0, 0);
+    //        StorePos();
+    //    }
+    //    else
+    //    {
+    //        if (MeshPart.transform.childCount > 0)
+    //        {
+    //            for (int i = 0; i < MeshPart.transform.childCount; i++)
+    //            {
+    //                //print(MeshPart.transform.GetChild(i).gameObject);
+    //                MeshPart.transform.GetChild(i).gameObject.SetActive(false);
+    //            }
+    //        }
+    //    }
+    //}
 }

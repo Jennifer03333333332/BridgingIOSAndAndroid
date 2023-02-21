@@ -16,7 +16,7 @@ public static class GlobalSetting
     public static bool StartGame = false;
     public static float cube_scale;
 
-    public static bool camera_filter_state;
+    public static bool camera_filter_state = false;
 
     public static MeshType currentMesh = MeshType.Giantbox;//for debug
 
