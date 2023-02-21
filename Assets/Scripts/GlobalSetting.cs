@@ -11,9 +11,9 @@ public enum Spots {
     one, two, three
 }
 
-
 public static class GlobalSetting
 {
+    public static bool StartGame = false;
     public static float cube_scale;
 
     public static bool camera_filter_state;

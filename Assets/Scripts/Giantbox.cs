@@ -6,13 +6,17 @@ using UnityEngine;
 public class Giantbox : MonoBehaviour
 {
     private bool init = false;
+    private GameObject GameManager;
+
     //private PlaceAtLocation placeAtComponent;
     public GameObject MeshPart;
     public MeshType mesh;//for debug mode current mesh
+    private bool useDebugMenu = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameManager = GameObject.Find("GameManager");
+        //print("Scene init");//after Instantiate. maybe because I'm changing the local pos, so it won't move with the parent's place at locations
     }
 
     // Update is called once per frame
@@ -21,73 +25,84 @@ public class Giantbox : MonoBehaviour
         if (!init)
         {
             //placeAtComponent = GetComponent<PlaceAtLocation>();
-            StorePos();//synchronize the position to global settings
+            DisableObjects();
             //EnableObjects();//for bug that child object was enabled
             init = true;
         }
         //if change position per frame: flick
-        //for pos and scale
-        switch (mesh)
+        if (GlobalSetting.StartGame && useDebugMenu)
         {
-            case MeshType.Giantbox:
-                {
-                    MeshPart.transform.localScale = new Vector3(GlobalSetting.cube_scale, GlobalSetting.cube_scale, GlobalSetting.cube_scale);
-                    break;
-                }
-            case MeshType.Train:
-                {
-                    if (TrainSetting.UpdatingPos)
+            //change pos and scale based on GlobalSetting
+            switch (mesh)
+            {
+                case MeshType.Giantbox:
                     {
-                        TrainSetting.UpdatingPos = false; MeshPart.transform.localPosition = TrainSetting.pos; TrainSetting.Train_worldpos = transform.position;
+                        MeshPart.transform.localScale = new Vector3(GlobalSetting.cube_scale, GlobalSetting.cube_scale, GlobalSetting.cube_scale);
+                        break;
                     }
-                    if (TrainSetting.UpdatingRot)
+                case MeshType.Train:
                     {
-                        TrainSetting.UpdatingRot = false; MeshPart.transform.localRotation *= Quaternion.AngleAxis(45f, Vector3.up);
+                        if (TrainSetting.UpdatingPos)
+                        {
+                            TrainSetting.UpdatingPos = false; MeshPart.transform.localPosition = TrainSetting.pos; TrainSetting.Train_worldpos = transform.position;
+                        }
+                        if (TrainSetting.UpdatingRot)
+                        {
+                            TrainSetting.UpdatingRot = false; MeshPart.transform.localRotation *= Quaternion.AngleAxis(45f, Vector3.up);
+                        }
+                        MeshPart.transform.localScale = new Vector3(TrainSetting.scale, TrainSetting.scale, TrainSetting.scale);
+                        break;
                     }
-                    MeshPart.transform.localScale = new Vector3(TrainSetting.scale, TrainSetting.scale, TrainSetting.scale);
-                    break;
-                }
-            case MeshType.Factory:
-                {
-                    if (FactorySetting.UpdatingPos)
+                case MeshType.Factory:
                     {
-                        FactorySetting.UpdatingPos = false; MeshPart.transform.localPosition = FactorySetting.pos;
+                        if (FactorySetting.UpdatingPos)
+                        {
+                            FactorySetting.UpdatingPos = false; MeshPart.transform.localPosition = FactorySetting.pos;
+                        }
+                        MeshPart.transform.localScale = new Vector3(FactorySetting.scale, FactorySetting.scale, FactorySetting.scale);
+                        break;
                     }
-                    MeshPart.transform.localScale = new Vector3(FactorySetting.scale, FactorySetting.scale, FactorySetting.scale);
-                    break;
-                }
-            default:
-                {
+                default:
+                    {
 
-                    break;
-                }
+                        break;
+                    }
+            }
         }
+
         //distance
         //var distance = placeAtComponent.SceneDistance;
         //for debug info
         if (GlobalSetting.currentMesh == mesh)
         {
             //print(transform.localPosition);
-            GlobalSetting.debuginfo = "Rot" + MeshPart.transform.localRotation.ToString() + " Pos:" + MeshPart.transform.localPosition.ToString();
+            //GlobalSetting.debuginfo = "Rot" + MeshPart.transform.localRotation.ToString() + " Pos:" + MeshPart.transform.localPosition.ToString();
             //GlobalSetting.debuginfo = distance.ToString();//show the distance between current mesh and camera
         }
         
+
     }
-    public void EnableDistanceGuide(bool enable)
-    {
-        if (enable)
-        {
-            gameObject.AddComponent<ARLocation.UI.DebugDistance>();
-        }
-        else
-        {
-            if (gameObject.GetComponent<ARLocation.UI.DebugDistance>())
-            {
-                Destroy(gameObject.GetComponent<ARLocation.UI.DebugDistance>());
-            }
-        }
-        
-    }
+
+    //first step
+    //public void EnableDistanceGuide(bool enable)
+    //{
+    //    if (enable){
+    //        //during tutorials
+    //        var compo = gameObject.AddComponent<ARLocation.UI.DebugDistance>();
+    //        GlobalSetting.debuginfo = compo.ToString();
+    //        //Go to model
+    //        GuideUI.SetActive(true);
+    //    }
+    //    else{
+    //        if (gameObject.GetComponent<ARLocation.UI.DebugDistance>())
+    //        {
+    //            Destroy(gameObject.GetComponent<ARLocation.UI.DebugDistance>());
+    //        }
+    //        GuideUI.SetActive(false);
+
+    //    }
+
+    //}
 
     void StorePos()
     {
@@ -106,18 +121,35 @@ public class Giantbox : MonoBehaviour
             FactorySetting.pos = MeshPart.transform.localPosition;
         }
     }
+
+    //When Enter the spot
     public void EnableObjects()
     {
-        if (transform.GetComponent<MeshRenderer>())
+        //if (transform.GetComponent<MeshRenderer>())
+        //{
+        //    transform.GetComponent<MeshRenderer>().enabled = true;
+        //}
+        if (MeshPart.transform.childCount > 0)
         {
-            transform.GetComponent<MeshRenderer>().enabled = true;
-        }
-        if (transform.childCount > 0)
-        {
-            for(int i = 0; i< transform.childCount; i++)
+            for(int i = 0; i< MeshPart.transform.childCount; i++)
             {
-                //print(transform.GetChild(i).gameObject);
-                transform.GetChild(i).gameObject.SetActive(true);
+                print(MeshPart.transform.GetChild(i).gameObject);
+                MeshPart.transform.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+        //set local position?
+        MeshPart.transform.localPosition = new Vector3(0, 0, 0);
+        StorePos();//synchronize the position to global settings
+        
+    }
+    public void DisableObjects()
+    {
+        if (MeshPart.transform.childCount > 0)
+        {
+            for (int i = 0; i < MeshPart.transform.childCount; i++)
+            {
+                print(MeshPart.transform.GetChild(i).gameObject);
+                MeshPart.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
     }

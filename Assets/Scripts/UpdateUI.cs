@@ -5,14 +5,49 @@ using UnityEngine.UI;
 
 public class UpdateUI : MonoBehaviour
 {
+    public GameObject GameManager;
     public GameObject Debug_Menu;
     public GameObject Scale_Text;
+    public GameObject PopUI;
+    public GameObject MapUI;
+    public GameObject StartUI;
     //public GameObject DebugInfo;
     //public GameObject Offset_Text;
 
     private float delta = 0.25f;
     private float FacDelta = 1f;
-
+    private void Start()
+    {
+        GameManager = GameObject.Find("GameManager");
+    }
+    //////////////////////Tutorial
+    public void OnClickTutorialCloseBtn()
+    {
+        //GameManager.SendMessage("StartTheGame");
+        GlobalSetting.StartGame = true;
+        StartUI.SetActive(false);
+    }
+    //////////////////////Map
+    public void OnChangeMap()
+    {
+        MapUI.SetActive(!MapUI.activeInHierarchy);
+    }
+    public void OnCloseMap()
+    {
+        MapUI.SetActive(false);
+    }
+    //////////////////////Pop up info
+    //Enter Spot
+    public void OnEnterSpot()
+    {
+        //pop up one ui
+        PopUI.SetActive(true);
+    }
+    public void OnClosePopUI()
+    {
+        PopUI.SetActive(false);
+    }
+    //////////////////////Debug info
     //Change scale slider
     public void OnScaleUpdate(float value)
     {
@@ -197,7 +232,7 @@ public class UpdateUI : MonoBehaviour
         }
     }
 
-
+    //////////////////////
     private void Update()
     {
         //print(Scale_Text.GetComponent<Text>());
