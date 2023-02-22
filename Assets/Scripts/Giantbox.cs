@@ -140,6 +140,17 @@ public class Giantbox : MonoBehaviour
         //set local position?
         //MeshPart.transform.localPosition = new Vector3(0, 0, 0);
         //StorePos();//synchronize the position to global settings
+        if ( GlobalSetting.currentSpot == Spots.two)
+        {
+            if (MeshPart.GetComponent<Animation>())
+            {
+                MeshPart.GetComponent<Animation>().Play("Take001");
+                GlobalSetting.debuginfo += MeshPart.gameObject.ToString();
+
+            }
+        }
+
+
     }
     public void DisableObjects()
     {

@@ -59,8 +59,10 @@ public class GameManager : MonoBehaviour
                     if (Physics.Raycast(ray, out hitObject)){
                         //GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.tag;
                         GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
-                        foreach (var Item in GiftBoxPrefabs){
+                        var Item = GiftBoxPrefabs[(int)GlobalSetting.currentSpot];
+                        //foreach (var Item in GiftBoxPrefabs){
                             if (Item.name == hitObject.transform.name){
+                                GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
                                 //show box on each state
                                 if (Item.transform.childCount > 0)
                                 {
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
 
                                 }
                             }
-                        }
+                        //}
 
                     }
                 }
@@ -107,6 +109,7 @@ public class GameManager : MonoBehaviour
     {
         if (Scenes_viewpoints[(int)GlobalSetting.currentSpot])
         {
+            //GlobalSetting.debuginfo += "EnableObjects " + Scenes_viewpoints[(int)GlobalSetting.currentSpot].ToString();
             Scenes_viewpoints[(int)GlobalSetting.currentSpot].SendMessage("EnableObjects");
         }
     }
@@ -128,9 +131,12 @@ public class GameManager : MonoBehaviour
             //Vector3 CameraWorldPos = ARLocationManager.Instance.MainCamera.transform.position;
             //Location location = ARLocationManager.Instance.GetLocationForWorldPosition(CameraWorldPos);
             //Vector3 SceneWorldPos = currentScene.transform.position;
+            
             if (Vector3.Distance(startPos, endPos) < nearDistance && !EnteredCurSpot) //the distance could be 0 if not stable
             {
                 EnteredCurSpot = true;
+                //GlobalSetting.debuginfo += "end:" + endPos.ToString() + " start:" + startPos.ToString() + EnteredCurSpot.ToString();
+
                 //Pop up UI
                 UIManager.SendMessage("OnEnterSpot");
 
@@ -148,36 +154,49 @@ public class GameManager : MonoBehaviour
     public void ChangeToNextSpot()
     {
         GlobalSetting.debuginfo += "clicknext ";
+        int curSpotNum = (int)GlobalSetting.currentSpot;
+        int nextSpotNum = curSpotNum + 1;
         //model and guide
-        if (Scenes_viewpoints[(int)GlobalSetting.currentSpot]) Destroy(Scenes_viewpoints[(int)GlobalSetting.currentSpot]);
-        if (Scenes[(int)GlobalSetting.currentSpot]) Destroy(Scenes[(int)GlobalSetting.currentSpot]);
-        GiftBoxPrefabs[(int)GlobalSetting.currentSpot + 1].SetActive(false);
+        if (Scenes_viewpoints[curSpotNum]) Destroy(Scenes_viewpoints[curSpotNum]);
+        if (Scenes[curSpotNum]) Destroy(Scenes[curSpotNum]);
+        GiftBoxPrefabs[nextSpotNum].SetActive(false);
+        GlobalSetting.camera_filter_state = false;
 
         //create new distance line
-        StartCoroutine(CreateDistanceLine((int)GlobalSetting.currentSpot + 1, 0));
-        GlobalSetting.currentSpot++;
-        GlobalSetting.debuginfo += GlobalSetting.currentSpot.ToString();
-        //Clear everything
-        touchstate = 0;
-        InitEachSpot = false;
-        EnteredCurSpot = false;
-        GlobalSetting.camera_filter_state = false;
-        
+        StartCoroutine(CreateDistanceLine(nextSpotNum, 3));
 
     }
 
     public IEnumerator CreateDistanceLine(int newSpot, float waitTime)
     {
-        var options = new PlaceAtLocation.PlaceAtOptions { };
+        GlobalSetting.debuginfo += "CreateDistanceLine" + newSpot.ToString() + waitTime.ToString();
+        
+        
+        //For spots.two
+        var options = new PlaceAtLocation.PlaceAtOptions()
+        {
+            HideObjectUntilItIsPlaced = true,
+            MaxNumberOfLocationUpdates = 2,
+            MovementSmoothing = 0.1f,
+            UseMovingAverage = false
+        };
         var location = new Location()
         {
-            Latitude = 40.42755994812879,
-            Longitude = -79.96209292157984,
+            Latitude = 40.4326840181329,//40.42755994812879,
+            Longitude = -79.9647788384843 ,//- 79.96209292157984,
             Altitude = 0,
             AltitudeMode = AltitudeMode.GroundRelative
-        };
-        Scenes_viewpoints[newSpot] = PlaceAtLocation.CreatePlacedInstance(GuideUIPrefab, location, options, true);
+        };//CreatePlacedInstance???
+        Scenes_viewpoints[newSpot] = Instantiate(GuideUIPrefab, ARLocationManager.Instance.gameObject.transform);
+        PlaceAtLocation.AddPlaceAtComponent(Scenes_viewpoints[newSpot], location, options, true);
+        //var ins = PlaceAtLocation.CreatePlacedInstance(GuideUIPrefab, location, options, true);
+
         yield return new WaitForSeconds(waitTime);
+        GlobalSetting.currentSpot += 1;
+        //Clear everything
+        EnteredCurSpot = false;
+        touchstate = 0;
+        InitEachSpot = false;
     }
 
 
