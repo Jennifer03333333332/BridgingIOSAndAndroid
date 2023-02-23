@@ -124,10 +124,13 @@ public class UpdateUI : MonoBehaviour
         if (Debug_Menu.activeInHierarchy)
         {
             Debug_Menu.SetActive(false);
+            GlobalSetting.useDebugMenu = false;
         }
         else
         {
             Debug_Menu.SetActive(true);
+            GlobalSetting.useDebugMenu = true;
+
         }
 
     }

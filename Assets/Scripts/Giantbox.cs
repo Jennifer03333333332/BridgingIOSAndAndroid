@@ -7,13 +7,12 @@ public class Giantbox : MonoBehaviour
 {
     private bool init = false;
     public bool EnableMeshPart = true;
-    public bool OnChanged = false;
     private GameObject GameManager;
 
     //private PlaceAtLocation placeAtComponent;
     public GameObject MeshPart;
     public MeshType mesh;//for debug mode current mesh
-    private bool useDebugMenu = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,13 +31,23 @@ public class Giantbox : MonoBehaviour
             init = true;
         }
         //if change position per frame: flick
-        if (GlobalSetting.StartGame && useDebugMenu)
+        if (GlobalSetting.StartGame && GlobalSetting.useDebugMenu)
         {
             //change pos and scale based on GlobalSetting
             switch (mesh)
             {
                 case MeshType.Giantbox:
                     {
+                        if (Model1Setting.UpdatingPos)
+                        {
+                            Model1Setting.UpdatingPos = false;
+                            MeshPart.transform.localPosition = Model1Setting.pos;
+                        }
+                        if (Model1Setting.UpdatingRot)
+                        {
+                            Model1Setting.UpdatingRot = false;
+                            MeshPart.transform.localRotation *= Quaternion.AngleAxis(45f, Vector3.up);
+                        }
                         MeshPart.transform.localScale = new Vector3(GlobalSetting.cube_scale, GlobalSetting.cube_scale, GlobalSetting.cube_scale);
                         break;
                     }
@@ -46,11 +55,14 @@ public class Giantbox : MonoBehaviour
                     {
                         if (TrainSetting.UpdatingPos)
                         {
-                            TrainSetting.UpdatingPos = false; MeshPart.transform.localPosition = TrainSetting.pos; TrainSetting.Train_worldpos = transform.position;
+                            TrainSetting.UpdatingPos = false; 
+                            MeshPart.transform.localPosition = TrainSetting.pos; 
+                            TrainSetting.Train_worldpos = transform.position;
                         }
                         if (TrainSetting.UpdatingRot)
                         {
-                            TrainSetting.UpdatingRot = false; MeshPart.transform.localRotation *= Quaternion.AngleAxis(45f, Vector3.up);
+                            TrainSetting.UpdatingRot = false; 
+                            MeshPart.transform.localRotation *= Quaternion.AngleAxis(45f, Vector3.up);
                         }
                         MeshPart.transform.localScale = new Vector3(TrainSetting.scale, TrainSetting.scale, TrainSetting.scale);
                         break;
@@ -114,7 +126,7 @@ public class Giantbox : MonoBehaviour
         }
         else if (mesh == MeshType.Train)
         {
-            TrainSetting.Train_worldpos = transform.position;
+            //TrainSetting.Train_worldpos = transform.position;
             TrainSetting.pos = MeshPart.transform.localPosition;
         }
         else if (mesh == MeshType.Factory)
@@ -155,6 +167,7 @@ public class Giantbox : MonoBehaviour
     public void DisableObjects()
     {
         MeshPart.gameObject.SetActive(false);
+        GameManager.SendMessage("DisableGiftBox");
         if (MeshPart.transform.childCount > 0)
         {
             for (int i = 0; i < MeshPart.transform.childCount; i++)

@@ -14,6 +14,7 @@ public enum Spots {
 public static class GlobalSetting
 {
     public static bool StartGame = false;
+    public static bool useDebugMenu = false;
     public static float cube_scale;
 
     public static bool camera_filter_state = false;
@@ -24,6 +25,14 @@ public static class GlobalSetting
 
     //3 spots
     public static Spots currentSpot = Spots.one;
+}
+
+public static class Model1Setting
+{
+    public static Vector3 pos;
+    public static float scale = 2;
+    public static bool UpdatingPos = false;
+    public static bool UpdatingRot = false;
 }
 
 public static class TrainSetting {

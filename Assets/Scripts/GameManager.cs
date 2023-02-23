@@ -46,61 +46,9 @@ public class GameManager : MonoBehaviour
                 PreSpots();
             }
             DuringWalkingToViewPoint();
+            AfterEnterSpotsViewpoint();
 
-            //after Enter the spot
-            if (Input.touchCount > 0 && EnteredCurSpot) 
-            {
-                Touch touch = Input.GetTouch(0);
-                touchPosition = touch.position;
-                if (touch.phase == TouchPhase.Began)
-                {
-                    Ray ray = arCamera.ScreenPointToRay(touchPosition);
-                    RaycastHit hitObject;
-                    if (Physics.Raycast(ray, out hitObject)){
-                        //GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.tag;
-                        GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
-                        var Item = GiftBoxPrefabs[(int)GlobalSetting.currentSpot];
-                        //foreach (var Item in GiftBoxPrefabs){
-                            if (Item.name == hitObject.transform.name){
-                                GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
-                                //show box on each state
-                                if (Item.transform.childCount > 0)
-                                {
-                                    if(touchstate >= Item.transform.childCount)
-                                    {
-                                        //Destroy gift box
-                                        Destroy(GiftBoxPrefabs[(int)GlobalSetting.currentSpot]);
-                                        //show the scene
-                                        Scenes[(int)GlobalSetting.currentSpot].SendMessage("EnableObjects");
-                                        //Show next btn
-                                        UIManager.SendMessage("OnShowNextBtn");
 
-                                    }
-                                    else
-                                    {
-                                        for (int i = 0; i < Item.transform.childCount; i++)
-                                        {
-                                            //print(Item.transform.GetChild(i).gameObject);
-                                            if (i == touchstate)
-                                            {
-                                                Item.transform.GetChild(i).gameObject.SetActive(true);
-                                            }
-                                            else
-                                            {
-                                                Item.transform.GetChild(i).gameObject.SetActive(false);
-                                            }
-                                        }
-                                        touchstate++;
-                                        GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
-                                    }
-
-                                }
-                            }
-                        //}
-
-                    }
-                }
-            }
         }
 
     }
@@ -167,11 +115,68 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void AfterEnterSpotsViewpoint()
+    {
+        //Check touch for chest
+        if (Input.touchCount > 0 && EnteredCurSpot)
+        {
+            Touch touch = Input.GetTouch(0);
+            touchPosition = touch.position;
+            if (touch.phase == TouchPhase.Began)
+            {
+                Ray ray = arCamera.ScreenPointToRay(touchPosition);
+                RaycastHit hitObject;
+                if (Physics.Raycast(ray, out hitObject))
+                {
+                    //GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.tag;
+                    GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
+                    var Item = GiftBoxPrefabs[(int)GlobalSetting.currentSpot];
+                    //foreach (var Item in GiftBoxPrefabs){
+                    if (Item.name == hitObject.transform.name)
+                    {
+                        GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
+                        //show box on each state
+                        if (Item.transform.childCount > 0)
+                        {
+                            if (touchstate >= Item.transform.childCount)
+                            {
+                                //Destroy gift box
+                                Destroy(GiftBoxPrefabs[(int)GlobalSetting.currentSpot]);
+                                //show the scene
+                                Scenes[(int)GlobalSetting.currentSpot].SendMessage("EnableObjects");
+                                //Show next btn
+                                UIManager.SendMessage("OnShowNextBtn");
+
+                            }
+                            else
+                            {
+                                for (int i = 0; i < Item.transform.childCount; i++)
+                                {
+                                    //print(Item.transform.GetChild(i).gameObject);
+                                    if (i == touchstate)
+                                    {
+                                        Item.transform.GetChild(i).gameObject.SetActive(true);
+                                    }
+                                    else
+                                    {
+                                        Item.transform.GetChild(i).gameObject.SetActive(false);
+                                    }
+                                }
+                                touchstate++;
+                                GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
+                            }
+
+                        }
+                    }
+                    //}
+
+                }
+            }
+        }
+    }
     public IEnumerator CreateDistanceLine(int newSpot, float waitTime)
     {
         GlobalSetting.debuginfo += "CreateDistanceLine" + newSpot.ToString() + waitTime.ToString();
-        
-        
         //For spots.two
         var options = new PlaceAtLocation.PlaceAtOptions()
         {
@@ -234,6 +239,14 @@ public class GameManager : MonoBehaviour
                 {
                     break;
                 }
+        }
+    }
+
+    public void DisableGiftBox()
+    {
+        foreach (var Item in GiftBoxPrefabs)
+        {
+            Item.gameObject.SetActive(false);
         }
     }
 

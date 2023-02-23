@@ -4391,7 +4391,7 @@ MonoBehaviour:
   dustXSpeed: 2
   random_range: 0.7
   render_frame_interval: 10
-  current_frame: 9
+  current_frame: 2
 --- !u!114 &1022483716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7987,8 +7987,8 @@ MonoBehaviour:
       LocationInputType: 0
       LocationData: {fileID: 0}
       Location:
-        Latitude: 40.4326805776179
-        Longitude: -79.96491524400183
+        Latitude: 40.42893562833732
+        Longitude: -79.96128439506418
         Altitude: 0
         AltitudeMode: 0
         Label: 
