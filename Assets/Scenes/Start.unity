@@ -4316,7 +4316,7 @@ MonoBehaviour:
   dustXSpeed: 2
   random_range: 0.5
   render_frame_interval: 10
-  current_frame: 9
+  current_frame: 0
 --- !u!1 &1037724817
 GameObject:
   m_ObjectHideFlags: 0
@@ -6457,7 +6457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1749448131
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8028,7 +8028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9121120548445626508, guid: 2f24f311d0fd637409f0f7e7fc0dad32, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f24f311d0fd637409f0f7e7fc0dad32, type: 3}
@@ -8271,8 +8271,8 @@ MonoBehaviour:
       LocationInputType: 0
       LocationData: {fileID: 0}
       Location:
-        Latitude: 40.4326840181329
-        Longitude: -79.9647788384843
+        Latitude: 40.4277164
+        Longitude: -79.9616413
         Altitude: 0
         AltitudeMode: 0
         Label: 
