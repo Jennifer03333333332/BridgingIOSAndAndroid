@@ -182,8 +182,8 @@ public class GameManager : MonoBehaviour
         };
         var location = new Location()
         {
-            Latitude = 40.4326840181329,//40.42755994812879,
-            Longitude = -79.9647788384843 ,//- 79.96209292157984,
+            Latitude = 40.42755994812879,//40.42755994812879,
+            Longitude = -79.96209292157984,//- 79.96209292157984,
             Altitude = 0,
             AltitudeMode = AltitudeMode.GroundRelative
         };//CreatePlacedInstance???

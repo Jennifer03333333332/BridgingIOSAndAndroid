@@ -6,12 +6,20 @@ using UnityEngine.UI;
 public class UpdateUI : MonoBehaviour
 {
     public GameObject GameManager;
-    public GameObject Debug_Menu;
-    public GameObject Scale_Text;
-    public GameObject PopUI;
-    public GameObject MapUI;
-    public GameObject StartUI;
-    public GameObject NextBtnUI;
+    [SerializeField]
+    private GameObject Debug_Menu;
+    [SerializeField]
+    private GameObject Scale_Text;
+    [SerializeField]
+    private GameObject PopUI;
+    [SerializeField]
+    private GameObject[] PopUIImg;
+    [SerializeField]
+    private GameObject MapUI;
+    [SerializeField]
+    private GameObject StartUI;
+    [SerializeField]
+    private GameObject NextBtnUI;
     //public GameObject DebugInfo;
     //public GameObject Offset_Text;
 
@@ -53,6 +61,30 @@ public class UpdateUI : MonoBehaviour
     {
         //pop up one ui
         PopUI.SetActive(true);
+        //show cur spot img
+        switch (GlobalSetting.currentSpot)
+        {
+            case Spots.one:
+                {
+                    PopUIImg[0].SetActive(true);
+                    PopUIImg[1].SetActive(false);
+                    break;
+                }
+            case Spots.two:
+                {
+                    PopUIImg[1].SetActive(false);
+                    PopUIImg[0].SetActive(true);
+                    break;
+                }
+            case Spots.three:
+                {
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
     }
     public void OnClosePopUI()
     {
