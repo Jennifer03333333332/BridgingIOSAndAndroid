@@ -20,11 +20,11 @@ public class UpdateUI : MonoBehaviour
     private GameObject StartUI;
     [SerializeField]
     private GameObject NextBtnUI;
+    [SerializeField]
+    private GameObject WalkingUI;
     //public GameObject DebugInfo;
     //public GameObject Offset_Text;
 
-    private float delta = 0.25f;
-    private float FacDelta = 1f;
     private void Start()
     {
         GameManager = GameObject.Find("GameManager");
@@ -35,8 +35,21 @@ public class UpdateUI : MonoBehaviour
         //GameManager.SendMessage("StartTheGame");
         GlobalSetting.StartGame = true;
         StartUI.SetActive(false);
+        GameManager.SendMessage("StartTheGame");
+        MapUI.SetActive(true);
+        MapUI.SendMessage("RefreshCurMap");
+    }
+    //////////////////////Walking to the viewpoint
+    public void WalkingUIControl(bool state)
+    {
+        WalkingUI.SetActive(state);
     }
     //////////////////////Next btn
+    public void OnClickEnterSpotBtn()
+    {
+        MapUI.SetActive(false);
+        WalkingUI.SetActive(true);
+    }
     public void OnShowNextBtn()
     {
         NextBtnUI.SetActive(true);
@@ -45,6 +58,7 @@ public class UpdateUI : MonoBehaviour
     {
         NextBtnUI.SetActive(false);
         GameManager.SendMessage("ChangeToNextSpot");
+
     }
     //////////////////////Map
     public void OnChangeMap()
@@ -92,28 +106,17 @@ public class UpdateUI : MonoBehaviour
     }
     //////////////////////Debug info
     //Change scale slider
-    public void OnScaleUpdate(float value)
-    {
-        switch (GlobalSetting.currentMesh) {
-            case MeshType.Giantbox:
-                {
-                    break;
-                }
-            case MeshType.Train:
-                {
-                    TrainSetting.scale = value;
-                    break;
-                }
-            case MeshType.Factory:
-                {
-                    FactorySetting.scale = value;
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }  
+    public void OnScaleUpdate(float value) {
+
+        //GlobalSetting.spots_dictionary[GlobalSetting.currentSpot].model
+
+        //if (GlobalSetting.spots_dictionary.ContainsKey(GlobalSetting.currentSpot))
+        //{
+
+        //}
+
+        //find current debug mesh
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].scale = value;
     }
 
 
@@ -144,138 +147,30 @@ public class UpdateUI : MonoBehaviour
     //Change pos
     public void OnClickUp()
     {
-        
-        switch (GlobalSetting.currentMesh)
-        {
-            case MeshType.Giantbox:
-                {
-                    break;
-                }
-            case MeshType.Train:
-                {
-                    TrainSetting.UpdatingPos = true;
-                    TrainSetting.pos.y += delta;
-                    break;
-                }
-            case MeshType.Factory:
-                {
-                    FactorySetting.UpdatingPos = true;
-                    //print(GlobalSetting.UpdatingPos);
-                    //print(FactorySetting.pos);
-                    FactorySetting.pos.y += FacDelta;
-                    break;
-                }
-            default:
-                {
-                    
-                    break;
-                }
-        }
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].UpdatingPos = true;
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].pos.y += GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].delta;
+        GlobalSetting.debuginfo += GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].pos.ToString();
     }
     public void OnClickDown()
     {
-        switch (GlobalSetting.currentMesh)
-        {
-            case MeshType.Giantbox:
-                {
-                    break;
-                }
-            case MeshType.Train:
-                {
-                    TrainSetting.UpdatingPos = true;
-                    TrainSetting.pos.y -= delta;
-                    break;
-                }
-            case MeshType.Factory:
-                {
-                    FactorySetting.UpdatingPos = true;
-                    FactorySetting.pos.y -= FacDelta;
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].UpdatingPos = true;
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].pos.y -= GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].delta;
     }
     public void OnClickLeft()
     {
-        switch (GlobalSetting.currentMesh)
-        {
-            case MeshType.Giantbox:
-                {
-                    break;
-                }
-            case MeshType.Train:
-                {
-                    TrainSetting.UpdatingPos = true;
-                    TrainSetting.pos.x -= delta;
-                    break;
-                }
-            case MeshType.Factory:
-                {
-                    FactorySetting.UpdatingPos = true;
-                    FactorySetting.pos.x -= FacDelta;
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].UpdatingPos = true;
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].pos.x -= GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].delta;
     }
     public void OnClickRight()
     {
-        switch (GlobalSetting.currentMesh)
-        {
-            case MeshType.Giantbox:
-                {
-                    break;
-                }
-            case MeshType.Train:
-                {
-                    TrainSetting.UpdatingPos = true;
-                    TrainSetting.pos.x += delta;
-                    break;
-                }
-            case MeshType.Factory:
-                {
-                    FactorySetting.UpdatingPos = true;
-                    FactorySetting.pos.x += FacDelta;
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].UpdatingPos = true;
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].pos.x += GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].delta;
     }
 
     //change rotation
     public void OnChangeRotation()
     {
-        switch (GlobalSetting.currentMesh)
-        {
-            case MeshType.Giantbox:
-                {
-                    break;
-                }
-            case MeshType.Train:
-                {
-                    TrainSetting.UpdatingRot = true;
-                    break;
-                }
-            case MeshType.Factory:
-                {
-                    FactorySetting.UpdatingRot = true;
-                    break;
-                }
-            default:
-                {
-
-                    break;
-                }
-        }
+        GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].UpdatingRot = true;
     }
 
     //////////////////////
@@ -288,29 +183,8 @@ public class UpdateUI : MonoBehaviour
         //Fac_Scale_Text.GetComponent<Text>().text = "Factory Scale: " + FactorySetting.scale;
         //Offset_Text.GetComponent<Text>().text = "Offset: " + scale_x;
 
-        switch (GlobalSetting.currentMesh)
-        {
-            case MeshType.Giantbox:
-                {
-                    break;
-                }
-            case MeshType.Train:
-                {
-                    Scale_Text.GetComponent<Text>().text = "Train Scale: " + TrainSetting.scale;
+        Scale_Text.GetComponent<Text>().text = "Train Scale: " + GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].scale;
 
-                    break;
-                }
-            case MeshType.Factory:
-                {
-                    Scale_Text.GetComponent<Text>().text = "Factory Scale: " + FactorySetting.scale;
-
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
 
     }
 }

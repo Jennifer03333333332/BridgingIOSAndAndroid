@@ -33,55 +33,22 @@ public class Giantbox : MonoBehaviour
         //if change position per frame: flick
         if (GlobalSetting.StartGame && GlobalSetting.useDebugMenu)
         {
-            //change pos and scale based on GlobalSetting
-            switch (mesh)
+            //for this mesh
+            if (GlobalSetting.spots_dictionary[mesh].UpdatingPos)
             {
-                case MeshType.Giantbox:
-                    {
-                        if (Model1Setting.UpdatingPos)
-                        {
-                            Model1Setting.UpdatingPos = false;
-                            MeshPart.transform.localPosition = Model1Setting.pos;
-                        }
-                        if (Model1Setting.UpdatingRot)
-                        {
-                            Model1Setting.UpdatingRot = false;
-                            MeshPart.transform.localRotation *= Quaternion.AngleAxis(45f, Vector3.up);
-                        }
-                        MeshPart.transform.localScale = new Vector3(GlobalSetting.cube_scale, GlobalSetting.cube_scale, GlobalSetting.cube_scale);
-                        break;
-                    }
-                case MeshType.Train:
-                    {
-                        if (TrainSetting.UpdatingPos)
-                        {
-                            TrainSetting.UpdatingPos = false; 
-                            MeshPart.transform.localPosition = TrainSetting.pos; 
-                            TrainSetting.Train_worldpos = transform.position;
-                        }
-                        if (TrainSetting.UpdatingRot)
-                        {
-                            TrainSetting.UpdatingRot = false; 
-                            MeshPart.transform.localRotation *= Quaternion.AngleAxis(45f, Vector3.up);
-                        }
-                        MeshPart.transform.localScale = new Vector3(TrainSetting.scale, TrainSetting.scale, TrainSetting.scale);
-                        break;
-                    }
-                case MeshType.Factory:
-                    {
-                        if (FactorySetting.UpdatingPos)
-                        {
-                            FactorySetting.UpdatingPos = false; MeshPart.transform.localPosition = FactorySetting.pos;
-                        }
-                        MeshPart.transform.localScale = new Vector3(FactorySetting.scale, FactorySetting.scale, FactorySetting.scale);
-                        break;
-                    }
-                default:
-                    {
-
-                        break;
-                    }
+                GlobalSetting.spots_dictionary[mesh].UpdatingPos = false;
+                MeshPart.transform.localPosition = GlobalSetting.spots_dictionary[mesh].pos;
             }
+            if (GlobalSetting.spots_dictionary[mesh].UpdatingRot)
+            {
+                GlobalSetting.spots_dictionary[mesh].UpdatingRot = false;
+                MeshPart.transform.localRotation *= GlobalSetting.spots_dictionary[mesh].rot;
+            }
+            float scale_ = GlobalSetting.spots_dictionary[mesh].scale;
+            MeshPart.transform.localScale = new Vector3(scale_, scale_, scale_);
+
+
+            //change pos and scale based on GlobalSetting
         }
 
         //distance
@@ -119,20 +86,7 @@ public class Giantbox : MonoBehaviour
 
     void StorePos()
     {
-        //TrainSetting.pos.y += delta;
-        if (mesh == MeshType.Giantbox)
-        {
-            //TrainSetting.pos = transform.localPosition;
-        }
-        else if (mesh == MeshType.Train)
-        {
-            //TrainSetting.Train_worldpos = transform.position;
-            TrainSetting.pos = MeshPart.transform.localPosition;
-        }
-        else if (mesh == MeshType.Factory)
-        {
-            FactorySetting.pos = MeshPart.transform.localPosition;
-        }
+        GlobalSetting.spots_dictionary[mesh].pos = MeshPart.transform.localPosition;
     }
 
     //When Enter the spot
@@ -167,7 +121,6 @@ public class Giantbox : MonoBehaviour
     public void DisableObjects()
     {
         MeshPart.gameObject.SetActive(false);
-        GameManager.SendMessage("DisableGiftBox");
         if (MeshPart.transform.childCount > 0)
         {
             for (int i = 0; i < MeshPart.transform.childCount; i++)

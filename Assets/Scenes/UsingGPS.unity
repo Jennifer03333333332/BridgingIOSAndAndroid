@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e5e11077e489453a9cbcfff72c5a9c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxNumberOfUpdates: 4
+  MaxNumberOfUpdates: 10
   AverageCount: 150
   UseRawUntilFirstAverage: 1
   MovementSmoothingFactor: 0.015
@@ -1172,7 +1172,7 @@ MonoBehaviour:
     MovementSmoothing: 0.05
     MaxNumberOfLocationUpdates: 4
     UseMovingAverage: 0
-    HideObjectUntilItIsPlaced: 1
+    HideObjectUntilItIsPlaced: 0
     ShowObjectAfterThisManyUpdates: 1
   DebugMode: 1
   ObjectLocationUpdated:
@@ -4316,7 +4316,7 @@ MonoBehaviour:
   dustXSpeed: 2
   random_range: 0.5
   render_frame_interval: 10
-  current_frame: 0
+  current_frame: 2
 --- !u!1 &1037724817
 GameObject:
   m_ObjectHideFlags: 0
@@ -5611,6 +5611,7 @@ MonoBehaviour:
   MapUI: {fileID: 1531307208}
   StartUI: {fileID: 784633611}
   NextBtnUI: {fileID: 1806560729}
+  WalkingUI: {fileID: 0}
 --- !u!224 &1449081346
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8081,8 +8082,8 @@ MonoBehaviour:
       Location:
         Latitude: 40.4297558
         Longitude: -79.9634816
-        Altitude: -20
-        AltitudeMode: 1
+        Altitude: 200
+        AltitudeMode: 2
         Label: 
       OverrideAltitudeData:
         OverrideAltitude: 0
@@ -8092,7 +8093,7 @@ MonoBehaviour:
     MovementSmoothing: 0.05
     MaxNumberOfLocationUpdates: 4
     UseMovingAverage: 0
-    HideObjectUntilItIsPlaced: 1
+    HideObjectUntilItIsPlaced: 0
     ShowObjectAfterThisManyUpdates: 1
   DebugMode: 0
   ObjectLocationUpdated:
@@ -8284,7 +8285,7 @@ MonoBehaviour:
     MovementSmoothing: 0.05
     MaxNumberOfLocationUpdates: 4
     UseMovingAverage: 0
-    HideObjectUntilItIsPlaced: 1
+    HideObjectUntilItIsPlaced: 0
     ShowObjectAfterThisManyUpdates: 1
   DebugMode: 0
   ObjectLocationUpdated:
