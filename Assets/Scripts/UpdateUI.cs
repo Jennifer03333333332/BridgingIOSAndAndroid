@@ -30,18 +30,16 @@ public class UpdateUI : MonoBehaviour
     [SerializeField]
     private GameObject ViewportUI;
     [SerializeField]
-    private GameObject OutLineUI;
+    private GameObject[] OutLineUIs;
     private RawImage m_ViewImg;
     private RawImage m_OutlineImg;
     [SerializeField]
     public Texture[] m_ViewTex;
-    [SerializeField]
-    public Texture[] m_OutLineTex;
+
     private void Start()
     {
         GameManager = GameObject.Find("GameManager");
         m_ViewImg = ViewportUI.GetComponent<RawImage>();
-        m_OutlineImg = OutLineUI.GetComponent<RawImage>();
     }
     //////////////////////Tutorial
     public void OnClickTutorialCloseBtn()
@@ -66,7 +64,11 @@ public class UpdateUI : MonoBehaviour
     public void ChangeWalkingUIImg()
     {
         m_ViewImg.texture = m_ViewTex[(int)GlobalSetting.currentSpot];
-        m_OutlineImg.texture = m_OutLineTex[(int)GlobalSetting.currentSpot];
+        foreach (var obj in OutLineUIs)
+        {
+            obj.SetActive(false);
+        }
+        OutLineUIs[(int)GlobalSetting.currentSpot].SetActive(true);
     }
     //////////////////////Next btn
     public void OnClickEnterSpotBtn()

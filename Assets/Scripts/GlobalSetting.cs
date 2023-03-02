@@ -60,11 +60,11 @@ public static class GlobalSetting
     public static Dictionary<MeshType, ModelsSetting> spots_dictionary = new Dictionary<MeshType, ModelsSetting> {
         //MeshType, world position(world_pos), mesh local pos(pos), scale, delta, rotation degree for each
         {MeshType.Barge0, new ModelsSetting(Spots.one, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 2, 1f, Quaternion.AngleAxis(45f, Vector3.forward))},
-        {MeshType.RollingMills0, new ModelsSetting(Spots.one, new Vector3(50f, -0.5f, 5), new Vector3(0, 0, 0), 2, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        {MeshType.RollingMills0, new ModelsSetting(Spots.one, new Vector3(50f, -0.5f, 5), new Vector3(0, 0, 0), 0.001f, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
         {MeshType.Train1, new ModelsSetting(Spots.two, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
         {MeshType.Barge2, new ModelsSetting(Spots.three, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
-        {MeshType.RollingMills2, new ModelsSetting(Spots.three, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
-        {MeshType.Furnaces2, new ModelsSetting(Spots.three, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        {MeshType.RollingMills2, new ModelsSetting(Spots.three, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 0.001f, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        {MeshType.Furnaces2, new ModelsSetting(Spots.three, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 0.001f, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
     };
 }
 
