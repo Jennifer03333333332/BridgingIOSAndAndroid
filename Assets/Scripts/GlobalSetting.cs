@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MeshType {//unique
-    Barge, Train, Factory
+    Barge0, RollingMills0, Train1, Barge2, RollingMills2, Furnaces2
 }
 
 //3 spots along the path
@@ -41,20 +41,30 @@ public static class GlobalSetting
 
     public static bool camera_filter_state = false;
 
-    public static MeshType currentMesh = MeshType.Barge;//for debug, set pos, scale..
+    public static MeshType currentMesh = MeshType.Barge0;//for debug, set pos, scale..
 
     public static string debuginfo = "";
 
     //3 spots
     public static Spots currentSpot = Spots.one;
 
-    public static Dictionary<Spots, Vector3> WorldPos = new Dictionary<Spots, Vector3> {
-        {Spots.one, new Vector3(0, -0.5f, 100)},
-    };
+    //public static MeshType[] s1 = { MeshType.Barge0, MeshType.RollingMills0 };
+    //public static MeshType[] s2 = { MeshType.Train1 };
+    //public static MeshType[] s3 = { MeshType.Barge2, MeshType.RollingMills2, MeshType.Furnaces2 };
+
+    //public static Dictionary<Spots, MeshType[]> spots2mesh = new Dictionary<Spots, MeshType[]> {
+    //    { Spots.one, s1 },
+    //    { Spots.two, s2},
+    //    { Spots.three, s3},
+    //};
     public static Dictionary<MeshType, ModelsSetting> spots_dictionary = new Dictionary<MeshType, ModelsSetting> {
-        //MeshType, world position, mesh local pos(for debug), scale, delta, rotation degree for each
-        {MeshType.Barge, new ModelsSetting(Spots.one, new Vector3(0, -0.5f, 100), new Vector3(0, 0, 0), 2, 1f, Quaternion.AngleAxis(45f, Vector3.forward))},
-        {MeshType.Train, new ModelsSetting(Spots.two, new Vector3(0, -0.5f, 100), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        //MeshType, world position(world_pos), mesh local pos(pos), scale, delta, rotation degree for each
+        {MeshType.Barge0, new ModelsSetting(Spots.one, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 2, 1f, Quaternion.AngleAxis(45f, Vector3.forward))},
+        {MeshType.RollingMills0, new ModelsSetting(Spots.one, new Vector3(50f, -0.5f, 5), new Vector3(0, 0, 0), 2, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        {MeshType.Train1, new ModelsSetting(Spots.two, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        {MeshType.Barge2, new ModelsSetting(Spots.three, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        {MeshType.RollingMills2, new ModelsSetting(Spots.three, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        {MeshType.Furnaces2, new ModelsSetting(Spots.three, new Vector3(0, -0.5f, 10), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
     };
 }
 

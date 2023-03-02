@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 public class GameManagerWithoutGPS : MonoBehaviour
 {
@@ -9,9 +10,17 @@ public class GameManagerWithoutGPS : MonoBehaviour
     [SerializeField]
     private GameObject MapUIManager;
     [SerializeField]
-    private GameObject[] SpotsModels;
+    private GameObject ScenesParent;
     [SerializeField]
-    private GameObject[] GiftBoxPrefabs;
+    private GameObject[] SpotsModels;//5 models for 3 viewpoints
+    [SerializeField]
+    private GameObject[] GiftBoxPrefabs;//index be meshtype
+
+    //private Dictionary<Spots, GameObject[]> ModelsInSpots = new Dictionary<Spots, GameObject[]> { } ;
+    [SerializeField]
+    public Dictionary<Spots, Dictionary<MeshType, GameObject>> ModelsInSpots = new Dictionary<Spots, Dictionary<MeshType, GameObject>> { } ;
+
+
     /// <summary>
     /// for touch
     /// </summary>
@@ -21,15 +30,41 @@ public class GameManagerWithoutGPS : MonoBehaviour
     private int touchstate = 0;
     //state
     private bool EnteredCurSpot = false;
+    private bool ControllingModels = false;
     //////////////////
     private void Start()
     {
         touchPosition = Vector2.zero;
 
+        Dictionary<MeshType, GameObject> tmp = new Dictionary<MeshType, GameObject>();
+        tmp.Add(MeshType.Barge0, SpotsModels[0]);
+        tmp.Add(MeshType.RollingMills0, SpotsModels[1]);
+        ModelsInSpots.Add(Spots.one, tmp);
+
+        Dictionary<MeshType, GameObject> tmp1 = new Dictionary<MeshType, GameObject>();
+        tmp1.Add(MeshType.Train1, SpotsModels[2]);
+        ModelsInSpots.Add(Spots.two, tmp1);
+
+        Dictionary<MeshType, GameObject> tmp2 = new Dictionary<MeshType, GameObject>();
+
+        tmp2.Add(MeshType.Barge2, SpotsModels[3]);
+        tmp2.Add(MeshType.RollingMills2, SpotsModels[4]);
+        tmp2.Add(MeshType.Furnaces2, SpotsModels[5]);
+        ModelsInSpots.Add(Spots.three, tmp2);
+
+        //foreach (KeyValuePair<Spots, Dictionary<MeshType, GameObject>> t in ModelsInSpots)
+        //foreach (var t in ModelsInSpots)
+        //{
+        //    foreach (var entry in t.Value)
+        //    {
+        //        print(entry.Value);
+        //    }
+        //}
     }
     private void Update()
     {
-        AfterEnterSpots();
+        ControllingChest();
+        ControlTheModels();
     }
     //Clean everything
     public void Clean()
@@ -37,6 +72,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
         GlobalSetting.camera_filter_state = false;
         touchstate = 0;
         EnteredCurSpot = false;
+        ControllingModels = false;
     }
 
 
@@ -52,38 +88,62 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
     }
 
+    //place models, 
     public void PressFoundDirBtn()
     {
+        //var arSessionOrigin = FindObjectOfType<XROrigin>();
+        //Vector3 screenCenter_WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 10));
+        //Vector3 FaceDir = screenCenter_WorldPos - arCamera.transform.position;
+        //GlobalSetting.debuginfo += "screenCenter_WorldPos+" + screenCenter_WorldPos.ToString();
+       // GlobalSetting.debuginfo += "cameraPos+" + arCamera.transform.position.ToString();
+
+        GlobalSetting.camera_filter_state = true;
         UIManager.SendMessage("WalkingUIControl", false);
+
+        //show return
+        UIManager.SendMessage("NextBtnControl", true);
+        //show all chests
+        foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
+        {
+            print(entry);
+            //Screen.orientation = ScreenOrientation.LandscapeLeft;
+            //entry.Value.transform.position = arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
+            GiftBoxPrefabs[(int)entry.Key].SetActive(true);
+            entry.Value.SendMessage("DisableObjects");
+        }
+
         //place objects in front of camera
-        SpotsModels[(int)GlobalSetting.currentSpot].transform.position = arCamera.transform.position + new Vector3(0,-0.5f,100);
-        //Show gift, disable mesh
-        GiftBoxPrefabs[(int)GlobalSetting.currentSpot].SetActive(true);
-        SpotsModels[(int)GlobalSetting.currentSpot].SendMessage("DisableObjects");
+        //SpotsModels[(int)GlobalSetting.currentSpot].transform.position = arCamera.transform.position + GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].pos;
+        ////Show gift, disable mesh
+        //GiftBoxPrefabs[(int)GlobalSetting.currentSpot].SetActive(true);
+        //SpotsModels[(int)GlobalSetting.currentSpot].SendMessage("DisableObjects");
+        
         //hide 
         EnteredCurSpot = true;
 
-        //use debug btn
-
 
     }
 
-    public void OnOpenChest()
+    public void ReturnToFindingDir()
     {
-        //Destroy gift box
-        GiftBoxPrefabs[(int)GlobalSetting.currentSpot].SetActive(false);
-        //Destroy(GiftBoxPrefabs[(int)GlobalSetting.currentSpot]);
-        GlobalSetting.camera_filter_state = true;
-        //show the scene
-        SpotsModels[(int)GlobalSetting.currentSpot].SendMessage("EnableObjects");
-        //Show next btn
-        UIManager.SendMessage("OnShowNextBtn");
+        GlobalSetting.camera_filter_state = false;
+        UIManager.SendMessage("WalkingUIControl", true);
+        UIManager.SendMessage("NextBtnControl", false);
+        GlobalSetting.debuginfo += GlobalSetting.currentSpot;
+        //show all chests. Key: Meshtype, value: models
+        foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
+        {
+            GiftBoxPrefabs[(int)entry.Key].SetActive(false);
+        }
+        //hide 
+        EnteredCurSpot = false;
     }
 
-    public void AfterEnterSpots()
+    public void ControllingChest()
     {
+        if (!EnteredCurSpot) return;
         //Check touch for chest
-        if (Input.touchCount > 0 && EnteredCurSpot)
+        if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
             touchPosition = touch.position;
@@ -93,11 +153,12 @@ public class GameManagerWithoutGPS : MonoBehaviour
                 RaycastHit hitObject;
                 if (Physics.Raycast(ray, out hitObject))
                 {
-                    //GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.tag;
                     GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
-                    var Item = GiftBoxPrefabs[(int)GlobalSetting.currentSpot];
+                    //var Item = GiftBoxPrefabs[(int)GlobalSetting.currentSpot];
                     //foreach (var Item in GiftBoxPrefabs){
-                    if (Item.name == hitObject.transform.name){
+                    foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot]){
+                        var Item = GiftBoxPrefabs[(int)entry.Key];
+                        if (Item.name == hitObject.transform.name){//if chest is current spot's chest
                         GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
                         //show box on each state
                         if (Item.transform.childCount > 0)
@@ -108,7 +169,6 @@ public class GameManagerWithoutGPS : MonoBehaviour
                             }
                             else
                             {
-                                //OnTouchedChest();
                                 for (int i = 0; i < Item.transform.childCount; i++)
                                 {
                                     //print(Item.transform.GetChild(i).gameObject);
@@ -127,7 +187,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
                         }
                     }
-                    //}
+                    }
 
                 }
             }
@@ -135,7 +195,58 @@ public class GameManagerWithoutGPS : MonoBehaviour
     }
 
 
+    public void OnOpenChest()
+    {
+        touchstate = 0;
+        foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
+        {
+            GiftBoxPrefabs[(int)entry.Key].SetActive(false);      
+            entry.Value.SendMessage("EnableObjects");
+        }
 
+        ////Destroy gift box
+        //GiftBoxPrefabs[(int)GlobalSetting.currentSpot].SetActive(false);
+        ////show the scene
+        //SpotsModels[(int)GlobalSetting.currentSpot].SendMessage("EnableObjects");
+
+       
+        //Show next btn
+        UIManager.SendMessage("OnShowNextBtn");
+        UIManager.SendMessage("NextBtnControl", false);
+        ControllingModels = true;
+    }
+
+    public void ControlTheModels()
+    {
+        if (!ControllingModels) return;
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            //touchPosition = touch.position;
+            if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
+            {
+                Ray ray = arCamera.ScreenPointToRay(touchPosition);
+                RaycastHit hitObject;
+                if (Physics.Raycast(ray, out hitObject))
+                {
+                    GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
+                    foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
+                    {
+                        var it = entry.Value; 
+                        if (it.name == hitObject.transform.name)
+                        {
+                            Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
+                            it.transform.position = Vector3.Lerp(it.transform.position, touchedPos, Time.deltaTime); 
+                        }
+                        //var Item = SpotsModels[(int)GlobalSetting.currentSpot];
+
+                    }
+
+
+                }
+            }
+        }
+    }
     //On click next
     public void ChangeToNextSpot()
     {
@@ -143,8 +254,19 @@ public class GameManagerWithoutGPS : MonoBehaviour
         int curSpotNum = (int)GlobalSetting.currentSpot;
         int nextSpotNum = curSpotNum + 1;
         //model and guide
-        if (SpotsModels[curSpotNum]) Destroy(SpotsModels[curSpotNum]);
-        GiftBoxPrefabs[nextSpotNum].SetActive(false);
+        foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
+        {
+            if(entry.Value) Destroy(entry.Value);
+        }
+        foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[(Spots)nextSpotNum])
+        {
+            GiftBoxPrefabs[(int)entry.Key].SetActive(false);
+        }
+
+        //if (SpotsModels[curSpotNum]) Destroy(SpotsModels[curSpotNum]);
+        //GiftBoxPrefabs[nextSpotNum].SetActive(false);
+
+
         GlobalSetting.currentSpot += 1;
         Clean();
         //Show map

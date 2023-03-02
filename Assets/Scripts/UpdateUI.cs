@@ -21,13 +21,27 @@ public class UpdateUI : MonoBehaviour
     [SerializeField]
     private GameObject NextBtnUI;
     [SerializeField]
+    private GameObject ReturnBtn;
+    [SerializeField]
     private GameObject WalkingUI;
+
     //public GameObject DebugInfo;
     //public GameObject Offset_Text;
-
+    [SerializeField]
+    private GameObject ViewportUI;
+    [SerializeField]
+    private GameObject OutLineUI;
+    private RawImage m_ViewImg;
+    private RawImage m_OutlineImg;
+    [SerializeField]
+    public Texture[] m_ViewTex;
+    [SerializeField]
+    public Texture[] m_OutLineTex;
     private void Start()
     {
         GameManager = GameObject.Find("GameManager");
+        m_ViewImg = ViewportUI.GetComponent<RawImage>();
+        m_OutlineImg = OutLineUI.GetComponent<RawImage>();
     }
     //////////////////////Tutorial
     public void OnClickTutorialCloseBtn()
@@ -43,16 +57,31 @@ public class UpdateUI : MonoBehaviour
     public void WalkingUIControl(bool state)
     {
         WalkingUI.SetActive(state);
+        //if (state)
+        //{
+        //    MapUI.SendMessage("RefreshCurMap");
+        //}
+    }
+    //change walking UI img
+    public void ChangeWalkingUIImg()
+    {
+        m_ViewImg.texture = m_ViewTex[(int)GlobalSetting.currentSpot];
+        m_OutlineImg.texture = m_OutLineTex[(int)GlobalSetting.currentSpot];
     }
     //////////////////////Next btn
     public void OnClickEnterSpotBtn()
     {
         MapUI.SetActive(false);
         WalkingUI.SetActive(true);
+        ChangeWalkingUIImg();
     }
     public void OnShowNextBtn()
     {
         NextBtnUI.SetActive(true);
+    }
+    public void NextBtnControl(bool state)
+    {
+        ReturnBtn.SetActive(state);
     }
     public void OnClickNextBtn()
     {

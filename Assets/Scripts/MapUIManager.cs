@@ -16,6 +16,7 @@ public class MapUIManager : MonoBehaviour
 
     public void RefreshCurMap()
     {
+        print("RefreshCurMap");
         switch (GlobalSetting.currentSpot)
         {
             case Spots.one:
