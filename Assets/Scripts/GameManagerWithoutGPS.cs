@@ -92,7 +92,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void PressFoundDirBtn()
     {
         //var arSessionOrigin = FindObjectOfType<XROrigin>();
-        Vector3 screenCenter_WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(0f, 0f, 30f));
+        Vector3 screenCenter_WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/3, 20f));
         Vector3 FaceDir = screenCenter_WorldPos - arCamera.transform.position;
         //GlobalSetting.debuginfo += "screenCenter_WorldPos+" + screenCenter_WorldPos.ToString();
        // GlobalSetting.debuginfo += "cameraPos+" + arCamera.transform.position.ToString();
@@ -107,9 +107,10 @@ public class GameManagerWithoutGPS : MonoBehaviour
         {
             print(entry);
             //Screen.orientation = ScreenOrientation.LandscapeLeft;
-            entry.Value.transform.position = screenCenter_WorldPos + arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
+            entry.Value.transform.position = screenCenter_WorldPos; //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
+            entry.Value.transform.LookAt(arCamera.transform.position, Vector3.up);
             GiftBoxPrefabs[(int)entry.Key].SetActive(true);
-            entry.Value.SendMessage("DisableObjects");
+            if(entry.Value) entry.Value.SendMessage("DisableObjects");
         }
 
         //place objects in front of camera
