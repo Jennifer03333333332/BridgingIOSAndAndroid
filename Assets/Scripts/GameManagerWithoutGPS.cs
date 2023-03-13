@@ -28,6 +28,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
     private Camera arCamera;
     private Vector2 touchPosition;
     private int touchstate = 0;
+    private int OpenedChest = 0;
+
     //state
     private bool EnteredCurSpot = false;
     private bool ControllingModels = false;
@@ -88,7 +90,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
     }
 
-    //place models, 
+    //place gifts, 
     public void PressFoundDirBtn()
     {
         //var arSessionOrigin = FindObjectOfType<XROrigin>();
@@ -102,14 +104,19 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
         //show return
         UIManager.SendMessage("NextBtnControl", true);
+        print(GlobalSetting.currentSpot);
+        print(ModelsInSpots[GlobalSetting.currentSpot]);
         //show all chests
         foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
         {
             print(entry);
             //Screen.orientation = ScreenOrientation.LandscapeLeft;
-            entry.Value.transform.position = screenCenter_WorldPos; //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
+            //entry.Value is Mesh gameobject, the parent of giftbox and renderer
+            entry.Value.transform.position = screenCenter_WorldPos + GlobalSetting.spots_dictionary[entry.Key].world_pos; ; //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
             entry.Value.transform.LookAt(arCamera.transform.position, Vector3.up);
+            
             GiftBoxPrefabs[(int)entry.Key].SetActive(true);
+            
             if(entry.Value) entry.Value.SendMessage("DisableObjects");
         }
 
@@ -166,7 +173,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
                         {
                             if (touchstate >= Item.transform.childCount)
                             {
-                                OnOpenChest();
+                                OnOpenChest(entry.Key);
                             }
                             else
                             {
@@ -196,13 +203,18 @@ public class GameManagerWithoutGPS : MonoBehaviour
     }
 
 
-    public void OnOpenChest()
+    public void OnOpenChest(MeshType m)
     {
         touchstate = 0;
+        //now it close every giftbox
         foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
         {
-            GiftBoxPrefabs[(int)entry.Key].SetActive(false);      
-            entry.Value.SendMessage("EnableObjects");
+            if(entry.Key == m)
+            {
+                GlobalSetting.debuginfo += entry.Key.ToString() + "Mesh";
+                GiftBoxPrefabs[(int)entry.Key].SetActive(false);
+                entry.Value.SendMessage("EnableObjects");
+            }
         }
 
         ////Destroy gift box
@@ -210,11 +222,24 @@ public class GameManagerWithoutGPS : MonoBehaviour
         ////show the scene
         //SpotsModels[(int)GlobalSetting.currentSpot].SendMessage("EnableObjects");
 
-       
+        OpenedChest++;
+
+        //if (OpenedChest >= GlobalSetting.ModelNumsinSpots[(int)GlobalSetting.currentSpot])
+        GlobalSetting.debuginfo += ModelsInSpots[GlobalSetting.currentSpot].Count.ToString();
+        if (OpenedChest >= ModelsInSpots[GlobalSetting.currentSpot].Count)
+        {
+            OnEveryChestsOpen();
+        }
+        
+    }
+
+    public void OnEveryChestsOpen()
+    {
         //Show next btn
         UIManager.SendMessage("OnShowNextBtn");
         UIManager.SendMessage("NextBtnControl", false);
         ControllingModels = true;
+        OpenedChest = 0;
     }
 
     public void ControlTheModels()
