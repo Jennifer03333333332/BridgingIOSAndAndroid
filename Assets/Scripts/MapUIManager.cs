@@ -8,10 +8,16 @@ public class MapUIManager : MonoBehaviour
     public GameObject[] ReferPanels;
     public GameObject[] ReferImgs;
     public GameObject[] ReferBtns;
+    public GameObject TutorialUI;
 
     public void ChangeReferImgState(int index)
     {
         ReferImgs[index].SetActive(!ReferImgs[index].activeInHierarchy);
+    }
+
+    public void OnChangeTutorialUIState(bool state)
+    {
+        TutorialUI.SetActive(state);
     }
 
     public void RefreshCurMap()
