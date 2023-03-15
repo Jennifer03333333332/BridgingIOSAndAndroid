@@ -24,7 +24,9 @@ public class UpdateUI : MonoBehaviour
     private GameObject ReturnBtn;
     [SerializeField]
     private GameObject WalkingUI;
-
+    [SerializeField]
+    private GameObject FindingModelsUI;
+    
     //public GameObject DebugInfo;
     //public GameObject Offset_Text;
     [SerializeField]
@@ -77,13 +79,29 @@ public class UpdateUI : MonoBehaviour
         WalkingUI.SetActive(true);
         ChangeWalkingUIImg();
     }
+    //showing roadmap
+    public void ReturnToStageOne()
+    {
+        MapUI.SetActive(true);
+        WalkingUI.SetActive(false);
+    }
+
+    //On every chests opened
+    public void OnAllChestsOpened()
+    {
+        OnShowNextBtn();
+        ReturnBtnControl(false);
+        FindingModelsUI.SetActive(false);
+    }
+
     public void OnShowNextBtn()
     {
+        
         NextBtnUI.SetActive(true);
     }
-    public void NextBtnControl(bool state)
+    public void ReturnBtnControl(bool state)
     {
-        ReturnBtn.SetActive(state);
+        ReturnBtn.SetActive(state);//close return btn
     }
     public void OnClickNextBtn()
     {

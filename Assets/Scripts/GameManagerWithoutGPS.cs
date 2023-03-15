@@ -103,7 +103,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
         UIManager.SendMessage("WalkingUIControl", false);
 
         //show return
-        UIManager.SendMessage("NextBtnControl", true);
+        UIManager.SendMessage("ReturnBtnControl", true);
         print(GlobalSetting.currentSpot);
         print(ModelsInSpots[GlobalSetting.currentSpot]);
         //show all chests
@@ -136,7 +136,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
     {
         GlobalSetting.camera_filter_state = false;
         UIManager.SendMessage("WalkingUIControl", true);
-        UIManager.SendMessage("NextBtnControl", false);
+        UIManager.SendMessage("ReturnBtnControl", false);
         GlobalSetting.debuginfo += GlobalSetting.currentSpot;
         //show all chests. Key: Meshtype, value: models
         foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
@@ -236,8 +236,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void OnEveryChestsOpen()
     {
         //Show next btn
-        UIManager.SendMessage("OnShowNextBtn");
-        UIManager.SendMessage("NextBtnControl", false);
+        UIManager.SendMessage("OnAllChestsOpened");
+
         ControllingModels = true;
         OpenedChest = 0;
     }
