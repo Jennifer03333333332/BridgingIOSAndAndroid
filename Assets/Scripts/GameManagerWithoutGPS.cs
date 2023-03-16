@@ -20,7 +20,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
     [SerializeField]
     public Dictionary<Spots, Dictionary<MeshType, GameObject>> ModelsInSpots = new Dictionary<Spots, Dictionary<MeshType, GameObject>> { } ;
 
-
+    private bool use_mouse = false;
     /// <summary>
     /// for touch
     /// </summary>
@@ -33,6 +33,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
     //state
     private bool EnteredCurSpot = false;
     private bool ControllingModels = false;
+    //
+    private GameObject cur_Mesh;
     //////////////////
     private void Start()
     {
@@ -62,11 +64,14 @@ public class GameManagerWithoutGPS : MonoBehaviour
         //        print(entry.Value);
         //    }
         //}
+
+        //cur_Mesh = ModelsInSpots[GlobalSetting.currentSpot][MeshType.Barge0];
+
     }
     private void Update()
     {
         ControllingChest();
-        ControlTheModels();
+        //ControlTheModels();
     }
     //Clean everything
     public void Clean()
@@ -112,12 +117,21 @@ public class GameManagerWithoutGPS : MonoBehaviour
             print(entry);
             //Screen.orientation = ScreenOrientation.LandscapeLeft;
             //entry.Value is Mesh gameobject, the parent of giftbox and renderer
-            entry.Value.transform.position = screenCenter_WorldPos + GlobalSetting.spots_dictionary[entry.Key].world_pos; ; //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
+            entry.Value.transform.position = screenCenter_WorldPos + GlobalSetting.spots_dictionary[entry.Key].world_pos;  //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
             entry.Value.transform.LookAt(arCamera.transform.position, Vector3.up);
             
             GiftBoxPrefabs[(int)entry.Key].SetActive(true);
-            
-            if(entry.Value) entry.Value.SendMessage("DisableObjects");
+            //reset touch state for giftbox
+            for (int i = 0; i < GiftBoxPrefabs[(int)entry.Key].transform.childCount; i++)
+            {
+                //print(GiftBoxPrefabs[(int)entry.Key].transform.GetChild(i).gameObject);
+                if (i == 0) {
+                    GiftBoxPrefabs[(int)entry.Key].transform.GetChild(i).gameObject.SetActive(true);
+                    continue;
+                }
+                GiftBoxPrefabs[(int)entry.Key].transform.GetChild(i).gameObject.SetActive(false);
+            }
+            if (entry.Value) entry.Value.SendMessage("DisableObjects");
         }
 
         //place objects in front of camera
@@ -134,14 +148,18 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
     public void ReturnToFindingDir()
     {
+        OpenedChest = 0;
+        touchstate = 0;
         GlobalSetting.camera_filter_state = false;
         UIManager.SendMessage("WalkingUIControl", true);
         UIManager.SendMessage("ReturnBtnControl", false);
         GlobalSetting.debuginfo += GlobalSetting.currentSpot;
-        //show all chests. Key: Meshtype, value: models
+        //show all chests. Key: Meshtype, value: spot models
         foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
         {
             GiftBoxPrefabs[(int)entry.Key].SetActive(false);
+
+            entry.Value.SendMessage("DisableObjects");
         }
         //hide 
         EnteredCurSpot = false;
@@ -150,6 +168,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void ControllingChest()
     {
         if (!EnteredCurSpot) return;
+        Input.simulateMouseWithTouches = true;
         //Check touch for chest
         if (Input.touchCount > 0)
         {
@@ -161,7 +180,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
                 RaycastHit hitObject;
                 if (Physics.Raycast(ray, out hitObject))
                 {
-                    GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
+                    //GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
                     //var Item = GiftBoxPrefabs[(int)GlobalSetting.currentSpot];
                     //foreach (var Item in GiftBoxPrefabs){
                     foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot]){
@@ -200,6 +219,54 @@ public class GameManagerWithoutGPS : MonoBehaviour
                 }
             }
         }
+        //test with click
+        if (Input.GetMouseButtonDown(0) && use_mouse)
+        {
+            //Touch touch = Input.GetTouch(0);
+            //touchPosition = touch.position;
+            Vector2 mousePos = Input.mousePosition;
+            Ray ray = arCamera.ScreenPointToRay(mousePos);
+            RaycastHit hitObject;
+                if (Physics.Raycast(ray, out hitObject))
+                {
+                    foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
+                    {
+                        var Item = GiftBoxPrefabs[(int)entry.Key];
+                        if (Item.name == hitObject.transform.name)
+                        {//if chest is current spot's chest
+                            GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
+                            //show box on each state
+                            if (Item.transform.childCount > 0)
+                            {
+                                if (touchstate >= Item.transform.childCount)
+                                {
+                                    OnOpenChest(entry.Key);
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < Item.transform.childCount; i++)
+                                    {
+                                        //print(Item.transform.GetChild(i).gameObject);
+                                        if (i == touchstate)
+                                        {
+                                            Item.transform.GetChild(i).gameObject.SetActive(true);
+                                        }
+                                        else
+                                        {
+                                            Item.transform.GetChild(i).gameObject.SetActive(false);
+                                        }
+                                    }
+                                    touchstate++;
+                                    GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+            
+        }
     }
 
 
@@ -211,7 +278,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
         {
             if(entry.Key == m)
             {
-                GlobalSetting.debuginfo += entry.Key.ToString() + "Mesh";
+                //GlobalSetting.debuginfo += entry.Key.ToString() + "Mesh";
                 GiftBoxPrefabs[(int)entry.Key].SetActive(false);
                 entry.Value.SendMessage("EnableObjects");
             }
@@ -230,15 +297,15 @@ public class GameManagerWithoutGPS : MonoBehaviour
         {
             OnEveryChestsOpen();
         }
-        
+        ControllingModels = true;
     }
 
     public void OnEveryChestsOpen()
     {
         //Show next btn
         UIManager.SendMessage("OnAllChestsOpened");
+        ControllingModels = false;
 
-        ControllingModels = true;
         OpenedChest = 0;
     }
 
@@ -247,29 +314,41 @@ public class GameManagerWithoutGPS : MonoBehaviour
         if (!ControllingModels) return;
         if (Input.touchCount > 0)
         {
+            Input.simulateMouseWithTouches = true;
             Touch touch = Input.GetTouch(0);
+            //GlobalSetting.debuginfo = "touchPosition: " + touch.position.ToString();
+
             //touchPosition = touch.position;
             if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
             {
+                Transform cur_hitobj= ModelsInSpots[GlobalSetting.currentSpot][MeshType.Barge0].transform;
                 Ray ray = arCamera.ScreenPointToRay(touchPosition);
                 RaycastHit hitObject;
+               
                 if (Physics.Raycast(ray, out hitObject))
                 {
-                    GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
-                    foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
-                    {
-                        var it = entry.Value; 
-                        if (it.name == hitObject.transform.name)
-                        {
-                            Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
-                            it.transform.position = Vector3.Lerp(it.transform.position, touchedPos, Time.deltaTime); 
-                        }
-                        //var Item = SpotsModels[(int)GlobalSetting.currentSpot];
-
-                    }
+                    cur_hitobj = hitObject.transform;
+                    //GlobalSetting.debuginfo += "hitObject: " + hitObject.transform.name;
+                    //Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
+                    ////hitObject.transform.SendMessage("UpdateModel", touchedPos);
+                    //touchedPos.z = hitObject.transform.position.z;
+                    //hitObject.transform.position = Vector3.Lerp(hitObject.transform.position, touchedPos, Time.deltaTime);
+                    ////foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
+                    //{
+                    //}
 
 
                 }
+                if (cur_hitobj)
+                {
+                    Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 20));//Camera.main.pixelHeight-
+                    //touchedPos.z = (Camera.main.transform.position - cur_hitobj.transform.position).magnitude;
+                    cur_hitobj.transform.position = Vector3.Lerp(cur_hitobj.transform.position, touchedPos, Time.deltaTime);
+                    //GlobalSetting.debuginfo += " to : " + touchedPos.ToString();
+                    //GlobalSetting.debuginfo += " cur_hitobj: " + cur_hitobj.transform.position.ToString();
+
+                }
+
             }
         }
     }

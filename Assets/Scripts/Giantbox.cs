@@ -118,7 +118,7 @@ public class Giantbox : MonoBehaviour
 
 
     }
-    public void DisableObjects()
+    public void DisableObjects()//Disable mesh part
     {
         MeshPart.gameObject.SetActive(false);
         if (MeshPart.transform.childCount > 0)
