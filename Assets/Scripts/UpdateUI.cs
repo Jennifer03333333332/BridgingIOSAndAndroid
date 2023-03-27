@@ -37,11 +37,16 @@ public class UpdateUI : MonoBehaviour
     private RawImage m_OutlineImg;
     [SerializeField]
     public Texture[] m_ViewTex;
-
+    [SerializeField]
+    private GameObject m_OldUI;
+    private RawImage m_OldImg;
+    [SerializeField]
+    public Texture[] m_OldTex;
     private void Start()
     {
         GameManager = GameObject.Find("GameManager");
         m_ViewImg = ViewportUI.GetComponent<RawImage>();
+        m_OldImg = m_OldUI.GetComponent<RawImage>();
     }
     //////////////////////Tutorial
     public void OnClickTutorialCloseBtn()
@@ -78,6 +83,20 @@ public class UpdateUI : MonoBehaviour
         MapUI.SetActive(false);
         WalkingUI.SetActive(true);
         ChangeWalkingUIImg();
+    }
+    /// <summary>
+    /// For old ref img fading
+    /// </summary>
+    public void OpenOldImage()
+    {
+        m_OldUI.SetActive(true);
+        m_OldImg.texture = m_OldTex[(int)GlobalSetting.currentSpot];
+        StartCoroutine(DisableOldImage());
+    }
+    IEnumerator DisableOldImage()
+    {
+        yield return new WaitForSeconds(3f);
+        m_OldUI.SetActive(false);
     }
     //showing roadmap
     public void ReturnToStageOne()

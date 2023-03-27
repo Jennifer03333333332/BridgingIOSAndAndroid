@@ -20,7 +20,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
     [SerializeField]
     public Dictionary<Spots, Dictionary<MeshType, GameObject>> ModelsInSpots = new Dictionary<Spots, Dictionary<MeshType, GameObject>> { } ;
 
-    private bool use_mouse = false;
+    private bool use_mouse = true;
     /// <summary>
     /// for touch
     /// </summary>
@@ -98,6 +98,11 @@ public class GameManagerWithoutGPS : MonoBehaviour
     //place gifts, 
     public void PressFoundDirBtn()
     {
+        //Fade old image
+        UIManager.SendMessage("OpenOldImage");
+
+
+
         //var arSessionOrigin = FindObjectOfType<XROrigin>();
         Vector3 screenCenter_WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/3, 20f));
         Vector3 FaceDir = screenCenter_WorldPos - arCamera.transform.position;
