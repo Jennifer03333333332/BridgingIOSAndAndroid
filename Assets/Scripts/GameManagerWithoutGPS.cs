@@ -20,7 +20,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
     [SerializeField]
     public Dictionary<Spots, Dictionary<MeshType, GameObject>> ModelsInSpots = new Dictionary<Spots, Dictionary<MeshType, GameObject>> { } ;
 
-    private bool use_mouse = true;
+    public bool use_mouse = false;
     /// <summary>
     /// for touch
     /// </summary>
@@ -86,7 +86,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
     //Press "start"
     public void StartTheGame()
     {
-        //Show "I've found the space"
+        //Audio
+        gameObject.SendMessage("PlayingSound", "Intro");
         
 
         
@@ -124,7 +125,12 @@ public class GameManagerWithoutGPS : MonoBehaviour
             //entry.Value is Mesh gameobject, the parent of giftbox and renderer
             entry.Value.transform.position = screenCenter_WorldPos + GlobalSetting.spots_dictionary[entry.Key].world_pos;  //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
             entry.Value.transform.LookAt(arCamera.transform.position, Vector3.up);
-            
+            //GameObject gift = entry.Value.FindGameObjectWithTag("Gift");
+
+            //find giftbox
+
+
+
             GiftBoxPrefabs[(int)entry.Key].SetActive(true);
             //reset touch state for giftbox
             for (int i = 0; i < GiftBoxPrefabs[(int)entry.Key].transform.childCount; i++)
@@ -375,7 +381,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
         //if (SpotsModels[curSpotNum]) Destroy(SpotsModels[curSpotNum]);
         //GiftBoxPrefabs[nextSpotNum].SetActive(false);
-
+        //Audio
+        gameObject.SendMessage("PlayingSound", nextSpotNum);
 
         GlobalSetting.currentSpot += 1;
         Clean();

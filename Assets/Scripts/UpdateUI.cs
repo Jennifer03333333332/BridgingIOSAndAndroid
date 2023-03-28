@@ -83,6 +83,7 @@ public class UpdateUI : MonoBehaviour
         MapUI.SetActive(false);
         WalkingUI.SetActive(true);
         ChangeWalkingUIImg();
+        GameManager.SendMessage("StopAllPlayingSound");
     }
     /// <summary>
     /// For old ref img fading
@@ -95,8 +96,20 @@ public class UpdateUI : MonoBehaviour
     }
     IEnumerator DisableOldImage()
     {
-        yield return new WaitForSeconds(3f);
+        // loop over 1 second backwards
+        //for (float i = 1; i >= 0; i -= Time.deltaTime)
+        //{
+        //    // set color with i as alpha
+        //    m_OldImg.color = new Color(1, 1, 1, i);
+        //    yield return null;
+        //    if(i < 0.2f)
+        //    {
+        //        m_OldUI.SetActive(false);
+        //    }
+        //}
+        yield return new WaitForSeconds(2f);
         m_OldUI.SetActive(false);
+
     }
     //showing roadmap
     public void ReturnToStageOne()
