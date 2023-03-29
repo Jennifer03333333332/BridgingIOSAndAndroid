@@ -18,7 +18,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
     //private Dictionary<Spots, GameObject[]> ModelsInSpots = new Dictionary<Spots, GameObject[]> { } ;
     [SerializeField]
-    public Dictionary<Spots, Dictionary<MeshType, GameObject>> ModelsInSpots = new Dictionary<Spots, Dictionary<MeshType, GameObject>> { } ;
+    public Dictionary<Spots, Dictionary<MeshType, GameObject>> ModelsInSpots = new Dictionary<Spots, Dictionary<MeshType, GameObject>> { };
 
     public bool use_mouse = false;
     /// <summary>
@@ -27,17 +27,34 @@ public class GameManagerWithoutGPS : MonoBehaviour
     [SerializeField]
     private Camera arCamera;
     private Vector2 touchPosition;
-    private int touchstate = 0;
+    //private int touchstate = 0;
     private int OpenedChest = 0;
 
+    
+    private int[] touchstates = new int[] { 0,0,0,0,0,0};//new int[6];
     //state
     private bool EnteredCurSpot = false;
     private bool ControllingModels = false;
     //
     private GameObject cur_Mesh;
+
+    private void ResetTouchstates()
+    {
+        touchstates = new int[] { 0, 0, 0, 0, 0, 0 };
+        //foreach(var obj in touchstates)
+        //{
+        //    print(obj);
+        //}
+    }
+
     //////////////////
     private void Start()
     {
+        //foreach (var obj in touchstates)
+        //{
+        //    print(obj);
+        //}
+
         touchPosition = Vector2.zero;
 
         Dictionary<MeshType, GameObject> tmp = new Dictionary<MeshType, GameObject>();
@@ -77,7 +94,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void Clean()
     {
         GlobalSetting.camera_filter_state = false;
-        touchstate = 0;
+        //touchstate = 0;
+        ResetTouchstates();
         EnteredCurSpot = false;
         ControllingModels = false;
     }
@@ -115,12 +133,12 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
         //show return
         UIManager.SendMessage("ReturnBtnControl", true);
-        print(GlobalSetting.currentSpot);
-        print(ModelsInSpots[GlobalSetting.currentSpot]);
+        //print(GlobalSetting.currentSpot);
+        //print(ModelsInSpots[GlobalSetting.currentSpot]);
         //show all chests
         foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
         {
-            print(entry);
+            //print(entry);
             //Screen.orientation = ScreenOrientation.LandscapeLeft;
             //entry.Value is Mesh gameobject, the parent of giftbox and renderer
             entry.Value.transform.position = screenCenter_WorldPos + GlobalSetting.spots_dictionary[entry.Key].world_pos;  //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
@@ -142,6 +160,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
                 }
                 GiftBoxPrefabs[(int)entry.Key].transform.GetChild(i).gameObject.SetActive(false);
             }
+            print(entry.Value);
             if (entry.Value) entry.Value.SendMessage("DisableObjects");
         }
 
@@ -160,7 +179,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void ReturnToFindingDir()
     {
         OpenedChest = 0;
-        touchstate = 0;
+        //touchstate = 0;
+        ResetTouchstates();
         GlobalSetting.camera_filter_state = false;
         UIManager.SendMessage("WalkingUIControl", true);
         UIManager.SendMessage("ReturnBtnControl", false);
@@ -179,9 +199,9 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void ControllingChest()
     {
         if (!EnteredCurSpot) return;
-        Input.simulateMouseWithTouches = true;
+        //Input.simulateMouseWithTouches = true;
         //Check touch for chest
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !use_mouse)
         {
             Touch touch = Input.GetTouch(0);
             touchPosition = touch.position;
@@ -194,37 +214,40 @@ public class GameManagerWithoutGPS : MonoBehaviour
                     //GlobalSetting.debuginfo += "Touch object: " + hitObject.transform.name;
                     //var Item = GiftBoxPrefabs[(int)GlobalSetting.currentSpot];
                     //foreach (var Item in GiftBoxPrefabs){
-                    foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot]){
+                    foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
+                    {
+                        print((int)entry.Key);
                         var Item = GiftBoxPrefabs[(int)entry.Key];
-                        if (Item.name == hitObject.transform.name){//if chest is current spot's chest
-                        GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
-                        //show box on each state
-                        if (Item.transform.childCount > 0)
-                        {
-                            if (touchstate >= Item.transform.childCount)
+                        //print(touchstates);
+                        //print(touchstates[0]);
+                        var touchstate = touchstates[(int)entry.Key];
+                        if (Item.name == hitObject.transform.name)
+                        {//if chest is current spot's chest
+                            GlobalSetting.debuginfo += "Touch state: " + touchstates[(int)entry.Key].ToString();
+                            //show box on each state. touch state need to for each object.
+                            if (Item.transform.childCount > 0)
                             {
-                                OnOpenChest(entry.Key);
-                            }
-                            else
-                            {
-                                for (int i = 0; i < Item.transform.childCount; i++)
+                                if (touchstates[(int)entry.Key] >= Item.transform.childCount) OnOpenChest(entry.Key);
+                                else
                                 {
-                                    //print(Item.transform.GetChild(i).gameObject);
-                                    if (i == touchstate)
+                                    for (int i = 0; i < Item.transform.childCount; i++)
                                     {
-                                        Item.transform.GetChild(i).gameObject.SetActive(true);
+                                        //print(Item.transform.GetChild(i).gameObject);
+                                        if (i == touchstates[(int)entry.Key])
+                                        {
+                                            Item.transform.GetChild(i).gameObject.SetActive(true);
+                                        }
+                                        else
+                                        {
+                                            Item.transform.GetChild(i).gameObject.SetActive(false);
+                                        }
                                     }
-                                    else
-                                    {
-                                        Item.transform.GetChild(i).gameObject.SetActive(false);
-                                    }
+                                    touchstates[(int)entry.Key]++;
+                                    GlobalSetting.debuginfo += "Touch state: " + touchstates[(int)entry.Key].ToString();
                                 }
-                                touchstate++;
-                                GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
-                            }
 
+                            }
                         }
-                    }
                     }
 
                 }
@@ -238,27 +261,25 @@ public class GameManagerWithoutGPS : MonoBehaviour
             Vector2 mousePos = Input.mousePosition;
             Ray ray = arCamera.ScreenPointToRay(mousePos);
             RaycastHit hitObject;
-                if (Physics.Raycast(ray, out hitObject))
-                {
-                    foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
-                    {
-                        var Item = GiftBoxPrefabs[(int)entry.Key];
-                        if (Item.name == hitObject.transform.name)
-                        {//if chest is current spot's chest
-                            GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
-                            //show box on each state
+            if (Physics.Raycast(ray, out hitObject)){
+                foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot]){
+                    print((int)entry.Key);
+                    var Item = GiftBoxPrefabs[(int)entry.Key];
+                    //print(touchstates);
+                    //print(touchstates[0]);
+                        var touchstate = touchstates[(int)entry.Key];
+                        if (Item.name == hitObject.transform.name){//if chest is current spot's chest
+                            GlobalSetting.debuginfo += "Touch state: " + touchstates[(int)entry.Key].ToString();
+                            //show box on each state. touch state need to for each object.
                             if (Item.transform.childCount > 0)
                             {
-                                if (touchstate >= Item.transform.childCount)
-                                {
-                                    OnOpenChest(entry.Key);
-                                }
+                                if (touchstates[(int)entry.Key] >= Item.transform.childCount) OnOpenChest(entry.Key);
                                 else
                                 {
                                     for (int i = 0; i < Item.transform.childCount; i++)
                                     {
                                         //print(Item.transform.GetChild(i).gameObject);
-                                        if (i == touchstate)
+                                        if (i == touchstates[(int)entry.Key])
                                         {
                                             Item.transform.GetChild(i).gameObject.SetActive(true);
                                         }
@@ -267,15 +288,15 @@ public class GameManagerWithoutGPS : MonoBehaviour
                                             Item.transform.GetChild(i).gameObject.SetActive(false);
                                         }
                                     }
-                                    touchstate++;
-                                    GlobalSetting.debuginfo += "Touch state: " + touchstate.ToString();
+                                    touchstates[(int)entry.Key]++;
+                                    GlobalSetting.debuginfo += "Touch state: " + touchstates[(int)entry.Key].ToString();
                                 }
 
                             }
                         }
                     }
 
-                }
+            }
             
         }
     }
@@ -283,7 +304,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
     public void OnOpenChest(MeshType m)
     {
-        touchstate = 0;
+        //touchstate = 0;
+        ResetTouchstates();
         //now it close every giftbox
         foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
         {
