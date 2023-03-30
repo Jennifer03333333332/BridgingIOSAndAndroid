@@ -91,24 +91,25 @@ public class UpdateUI : MonoBehaviour
     public void OpenOldImage()
     {
         m_OldUI.SetActive(true);
-        //m_OldImg.texture = m_OldTex[(int)GlobalSetting.currentSpot];
+        m_OldImg.texture = m_OldTex[(int)GlobalSetting.currentSpot];
         StartCoroutine(DisableOldImage());
     }
     IEnumerator DisableOldImage()
     {
         // loop over 1 second backwards
-        //for (float i = 1; i >= 0; i -= Time.deltaTime)
-        //{
-        //    // set color with i as alpha
-        //    m_OldImg.color = new Color(1, 1, 1, i);
-        //    yield return null;
-        //    if(i < 0.2f)
-        //    {
-        //        m_OldUI.SetActive(false);
-        //    }
-        //}
-        yield return new WaitForSeconds(12f);
-        m_OldUI.SetActive(false);
+        for (float i = 2; i >= 0; i -= Time.deltaTime)
+        {
+            // set color with i as alpha
+            m_OldImg.color = new Color(1, 1, 1, i/2.0f);
+            yield return null;
+            if (i < 0.4f)
+            {
+                m_OldUI.SetActive(false);
+                GlobalSetting.camera_filter_state = true;
+            }
+        }
+        //yield return new WaitForSeconds(2f);
+        //m_OldUI.SetActive(false);
 
     }
     //showing roadmap

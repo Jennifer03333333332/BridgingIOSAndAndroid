@@ -59,7 +59,9 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
         Dictionary<MeshType, GameObject> tmp = new Dictionary<MeshType, GameObject>();
         tmp.Add(MeshType.Barge0, SpotsModels[0]);
-        tmp.Add(MeshType.RollingMills0, SpotsModels[1]);
+        
+        //tmp.Add(MeshType.RollingMills0, SpotsModels[1]);
+        
         ModelsInSpots.Add(Spots.one, tmp);
 
         Dictionary<MeshType, GameObject> tmp1 = new Dictionary<MeshType, GameObject>();
@@ -126,7 +128,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
         //GlobalSetting.debuginfo += "screenCenter_WorldPos+" + screenCenter_WorldPos.ToString();
        // GlobalSetting.debuginfo += "cameraPos+" + arCamera.transform.position.ToString();
 
-        GlobalSetting.camera_filter_state = true;
+        
         UIManager.SendMessage("WalkingUIControl", false);
         
         //show return
@@ -140,11 +142,23 @@ public class GameManagerWithoutGPS : MonoBehaviour
             //Screen.orientation = ScreenOrientation.LandscapeLeft;
             //entry.Value is Mesh gameobject, the parent of giftbox and renderer
             //Debug.Log(GlobalSetting.spots_dictionary[entry.Key].world_pos);
+            
             entry.Value.transform.position = screenCenter_WorldPos + GlobalSetting.spots_dictionary[entry.Key].world_pos;  //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
             //entry.Value.transform.LookAt(arCamera.transform.position, Vector3.up);
-            //entry.Value.
-            //GameObject gift = entry.Value.FindGameObjectWithTag("Gift");
-
+            print(entry.Value);
+            print(entry.Value.transform.position);
+            //GameObject meshObj = entry.Value;
+            //GameObject gift = meshObj.Find("Gift");
+            if (entry.Value.transform.childCount > 0)
+            {
+                for (int i = 0; i < entry.Value.transform.childCount; i++)
+                {
+                    if (entry.Value.transform.GetChild(i).gameObject.CompareTag("Gift"))
+                    {
+                        entry.Value.transform.GetChild(i).transform.LookAt(arCamera.transform.position, Vector3.up);
+                    }
+                }
+            }
             //find giftbox
 
 
@@ -160,7 +174,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
                 }
                 GiftBoxPrefabs[(int)entry.Key].transform.GetChild(i).gameObject.SetActive(false);
             }
-            print(entry.Value);
+            //print(entry.Value);
             if (entry.Value) entry.Value.SendMessage("DisableObjects");
         }
 
@@ -169,11 +183,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
         ////Show gift, disable mesh
         //GiftBoxPrefabs[(int)GlobalSetting.currentSpot].SetActive(true);
         //SpotsModels[(int)GlobalSetting.currentSpot].SendMessage("DisableObjects");
-        
         //hide 
         EnteredCurSpot = true;
-
-
     }
 
     public void ReturnToFindingDir()
@@ -263,7 +274,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
             RaycastHit hitObject;
             if (Physics.Raycast(ray, out hitObject)){
                 foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot]){
-                    print((int)entry.Key);
+                    //print((int)entry.Key);
                     var Item = GiftBoxPrefabs[(int)entry.Key];
                     //print(touchstates);
                     //print(touchstates[0]);
