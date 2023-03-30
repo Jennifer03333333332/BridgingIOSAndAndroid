@@ -385,12 +385,21 @@ public class GameManagerWithoutGPS : MonoBehaviour
             }
         }
     }
+    
     //On click next
     public void ChangeToNextSpot()
     {
         GlobalSetting.debuginfo += "ClickNext ";
         int curSpotNum = (int)GlobalSetting.currentSpot;
+        if (curSpotNum > (int)Spots.length)
+        {
+            Ending();
+        }
+
         int nextSpotNum = curSpotNum + 1;
+
+        
+
         //model and guide
         foreach (KeyValuePair<MeshType, GameObject> entry in ModelsInSpots[GlobalSetting.currentSpot])
         {
@@ -411,5 +420,11 @@ public class GameManagerWithoutGPS : MonoBehaviour
         //Show map
         MapUIManager.SetActive(true);
         MapUIManager.SendMessage("RefreshCurMap");
+    }
+
+
+    public void Ending()
+    {
+
     }
 }

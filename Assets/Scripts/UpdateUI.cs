@@ -91,7 +91,7 @@ public class UpdateUI : MonoBehaviour
     public void OpenOldImage()
     {
         m_OldUI.SetActive(true);
-        m_OldImg.texture = m_OldTex[(int)GlobalSetting.currentSpot];
+        //m_OldImg.texture = m_OldTex[(int)GlobalSetting.currentSpot];
         StartCoroutine(DisableOldImage());
     }
     IEnumerator DisableOldImage()
@@ -107,7 +107,7 @@ public class UpdateUI : MonoBehaviour
         //        m_OldUI.SetActive(false);
         //    }
         //}
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(12f);
         m_OldUI.SetActive(false);
 
     }

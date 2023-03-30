@@ -8,7 +8,7 @@ public enum MeshType {//unique
 
 //3 spots along the path
 public enum Spots { 
-    one, two, three
+    one, two, three, length
 }
 
 
