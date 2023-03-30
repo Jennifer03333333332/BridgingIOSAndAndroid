@@ -62,14 +62,14 @@ public static class GlobalSetting
         //MeshType, world position(world_pos), mesh local pos(pos), scale, delta, rotation degree for each
 
         //world new Vector3(-2f, -3f, 20)
-        {MeshType.Barge0, new ModelsSetting(Spots.one, new Vector3(0f, 0f, 10f), new Vector3(0, 0, 0), 5, 1f, Quaternion.AngleAxis(45f, Vector3.forward))},
+        {MeshType.Barge0, new ModelsSetting(Spots.one, new Vector3(0f, -10f, 100f), new Vector3(0, 0, 0), 5, 1f, Quaternion.AngleAxis(45f, Vector3.forward))},
         //world new Vector3(50f, -0.5f, 5)
         {MeshType.RollingMills0, new ModelsSetting(Spots.one, new Vector3(50f, -0.5f, 50), new Vector3(0, 0, 0), 1f, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
         //world new Vector3(0, -0.5f, 10)
         {MeshType.Train1, new ModelsSetting(Spots.two, new Vector3(0f, 0f, 0f), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
         {MeshType.Barge2, new ModelsSetting(Spots.three, new Vector3(0f, -0.5f, 60), new Vector3(0, 0, 0), 6, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
         {MeshType.RollingMills2, new ModelsSetting(Spots.three, new Vector3(30f, -0.5f, 10), new Vector3(0, 0, 0), 1f, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
-        {MeshType.Furnaces2, new ModelsSetting(Spots.three, new Vector3(-20f, -0.5f, 10), new Vector3(0, 0, 0), 1f, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
+        {MeshType.Furnaces2, new ModelsSetting(Spots.three, new Vector3(-40f, -0.5f, 10), new Vector3(0, 0, 0), 1f, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
     };
 }
 

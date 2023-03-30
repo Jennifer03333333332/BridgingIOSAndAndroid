@@ -117,20 +117,18 @@ public class GameManagerWithoutGPS : MonoBehaviour
     //place gifts, 
     public void PressFoundDirBtn()
     {
+        //Debug.Log("walkinguicontrol");
         //Fade old image
         UIManager.SendMessage("OpenOldImage");
-
-
-
         //var arSessionOrigin = FindObjectOfType<XROrigin>();
         Vector3 screenCenter_WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/3, 20f));
-        Vector3 FaceDir = screenCenter_WorldPos - arCamera.transform.position;
+        //Vector3 FaceDir = screenCenter_WorldPos - arCamera.transform.position;
         //GlobalSetting.debuginfo += "screenCenter_WorldPos+" + screenCenter_WorldPos.ToString();
        // GlobalSetting.debuginfo += "cameraPos+" + arCamera.transform.position.ToString();
 
         GlobalSetting.camera_filter_state = true;
         UIManager.SendMessage("WalkingUIControl", false);
-
+        
         //show return
         UIManager.SendMessage("ReturnBtnControl", true);
         //print(GlobalSetting.currentSpot);
@@ -141,8 +139,10 @@ public class GameManagerWithoutGPS : MonoBehaviour
             //print(entry);
             //Screen.orientation = ScreenOrientation.LandscapeLeft;
             //entry.Value is Mesh gameobject, the parent of giftbox and renderer
+            //Debug.Log(GlobalSetting.spots_dictionary[entry.Key].world_pos);
             entry.Value.transform.position = screenCenter_WorldPos + GlobalSetting.spots_dictionary[entry.Key].world_pos;  //arCamera.transform.position + GlobalSetting.spots_dictionary[entry.Key].world_pos;//
-            entry.Value.transform.LookAt(arCamera.transform.position, Vector3.up);
+            //entry.Value.transform.LookAt(arCamera.transform.position, Vector3.up);
+            //entry.Value.
             //GameObject gift = entry.Value.FindGameObjectWithTag("Gift");
 
             //find giftbox
