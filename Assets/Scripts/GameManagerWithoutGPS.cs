@@ -402,6 +402,8 @@ public class GameManagerWithoutGPS : MonoBehaviour
     {
         GlobalSetting.debuginfo += "ClickNext ";
         int curSpotNum = (int)GlobalSetting.currentSpot;
+        print(curSpotNum);
+        print((int)Spots.length);
         if (curSpotNum > (int)Spots.length)
         {
             Ending();
