@@ -158,14 +158,16 @@ public class GameManagerWithoutGPS : MonoBehaviour
     {
         GlobalSetting.debuginfo += "ClickNext ";
         int curSpotNum = (int)GlobalSetting.currentSpot;
-        print(curSpotNum);
+        int nextSpotNum = curSpotNum + 1;
+        print(nextSpotNum);
         print((int)Spots.length);
-        if (curSpotNum > (int)Spots.length)
+        if (nextSpotNum >= (int)Spots.length)
         {
             Ending();
+            return;
         }
 
-        int nextSpotNum = curSpotNum + 1;
+        
 
         
 
@@ -190,6 +192,10 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
     public void Ending()
     {
+        UIManager.SendMessage("EndingUI");
+
+        gameObject.SendMessage("PlayingSound", (int)GlobalSetting.currentSpot + 1);
+
 
     }
 }

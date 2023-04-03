@@ -26,7 +26,10 @@ public class UpdateUI : MonoBehaviour
     private GameObject WalkingUI;
     [SerializeField]
     private GameObject FindingModelsUI;
-    
+    [SerializeField]
+    private GameObject GalleryUI;
+    [SerializeField]
+    private GameObject[] GalleryPages;
     //public GameObject DebugInfo;
     //public GameObject Offset_Text;
     [SerializeField]
@@ -51,12 +54,13 @@ public class UpdateUI : MonoBehaviour
     //////////////////////Tutorial
     public void OnClickTutorialCloseBtn()
     {
-        //GameManager.SendMessage("StartTheGame");
+        
         GlobalSetting.StartGame = true;
         StartUI.SetActive(false);
         GameManager.SendMessage("StartTheGame");
         MapUI.SetActive(true);
         MapUI.SendMessage("RefreshCurMap");
+        
     }
     //////////////////////Walking to the viewpoint
 
@@ -248,6 +252,13 @@ public class UpdateUI : MonoBehaviour
         GlobalSetting.spots_dictionary[GlobalSetting.currentMesh].UpdatingRot = true;
     }
 
+
+    public void EndingUI()
+    {
+        GalleryUI.SetActive(true);
+        GalleryPages[0].SetActive(false);
+        GalleryPages[1].SetActive(true);
+    }
     //////////////////////
     private void Update()
     {
