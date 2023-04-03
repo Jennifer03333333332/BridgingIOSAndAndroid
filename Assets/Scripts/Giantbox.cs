@@ -44,8 +44,8 @@ public class Giantbox : MonoBehaviour
                 GlobalSetting.spots_dictionary[mesh].UpdatingRot = false;
                 MeshPart.transform.localRotation *= GlobalSetting.spots_dictionary[mesh].rot;
             }
-            float scale_ = GlobalSetting.spots_dictionary[mesh].scale;
-            MeshPart.transform.localScale = new Vector3(scale_, scale_, scale_);
+            //float scale_ = GlobalSetting.spots_dictionary[mesh].scale;
+            //MeshPart.transform.localScale = new Vector3(scale_, scale_, scale_);
 
 
             //change pos and scale based on GlobalSetting
@@ -131,40 +131,9 @@ public class Giantbox : MonoBehaviour
         }
     }
 
-    //public void ReceiveMsg(bool state)
-    //{
-    //    if(state != EnableMeshPart)
-    //    {
-    //        OnChanged = true;
-    //        EnableMeshPart = state;
-    //    }
-    //}
-    //public void IfObjectsActive()
-    //{
-    //    if (EnableMeshPart)
-    //    {
-    //        if (MeshPart.transform.childCount > 0)
-    //        {
-    //            for (int i = 0; i < MeshPart.transform.childCount; i++)
-    //            {
-    //                //print(MeshPart.transform.GetChild(i).gameObject);
-    //                MeshPart.transform.GetChild(i).gameObject.SetActive(true);
-    //            }
-    //        }
-    //        //set local position?
-    //        MeshPart.transform.localPosition = new Vector3(0, 0, 0);
-    //        StorePos();
-    //    }
-    //    else
-    //    {
-    //        if (MeshPart.transform.childCount > 0)
-    //        {
-    //            for (int i = 0; i < MeshPart.transform.childCount; i++)
-    //            {
-    //                //print(MeshPart.transform.GetChild(i).gameObject);
-    //                MeshPart.transform.GetChild(i).gameObject.SetActive(false);
-    //            }
-    //        }
-    //    }
-    //}
+    public void MeshPartFaceToCamera()
+    {
+        //MeshPart.transform.LookAt(Camera.main.transform.position, Vector3.up);
+        MeshPart.transform.LookAt(MeshPart.transform.position + Camera.main.transform.rotation*Vector3.forward, Camera.main.transform.rotation * Vector3.up);
+    }
 }

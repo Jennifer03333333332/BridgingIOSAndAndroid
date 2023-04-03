@@ -59,14 +59,7 @@ public class UpdateUI : MonoBehaviour
         MapUI.SendMessage("RefreshCurMap");
     }
     //////////////////////Walking to the viewpoint
-    public void WalkingUIControl(bool state)
-    {
-        WalkingUI.SetActive(state);
-        //if (state)
-        //{
-        //    MapUI.SendMessage("RefreshCurMap");
-        //}
-    }
+
     //change walking UI img
     public void ChangeWalkingUIImg()
     {
@@ -105,7 +98,7 @@ public class UpdateUI : MonoBehaviour
             if (i < 0.4f)
             {
                 m_OldUI.SetActive(false);
-                GlobalSetting.camera_filter_state = true;
+                //GlobalSetting.camera_filter_state = true;
             }
         }
         //yield return new WaitForSeconds(2f);
