@@ -114,6 +114,7 @@ public class UpdateUI : MonoBehaviour
     {
         MapUI.SetActive(true);
         WalkingUI.SetActive(false);
+        GameManager.SendMessage("PlayingSound", (int)GlobalSetting.currentSpot);
     }
 
     //On every chests opened

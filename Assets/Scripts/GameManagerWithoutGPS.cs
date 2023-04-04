@@ -122,6 +122,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
             GlobalSetting.debuginfo += "Pos+" + entry.Value.transform.position.ToString();
             entry.Value.SendMessage("EnableObjects");
             entry.Value.SendMessage("MeshPartFaceToCamera");
+            entry.Value.SendMessage("StartVideo");
             
             //entry.Value.transform.LookAt(arCamera.transform.position, Vector3.up);
 
@@ -161,12 +162,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
         int nextSpotNum = curSpotNum + 1;
         print(nextSpotNum);
         print((int)Spots.length);
-        if (nextSpotNum >= (int)Spots.length)
-        {
-            Ending();
-            return;
-        }
-
+        
         
 
         
@@ -176,6 +172,14 @@ public class GameManagerWithoutGPS : MonoBehaviour
         {
             if(entry.Value) Destroy(entry.Value);
         }
+
+        if (nextSpotNum >= (int)Spots.length)
+        {
+            Ending();
+            return;
+        }
+
+
 
         //if (SpotsModels[curSpotNum]) Destroy(SpotsModels[curSpotNum]);
         //GiftBoxPrefabs[nextSpotNum].SetActive(false);

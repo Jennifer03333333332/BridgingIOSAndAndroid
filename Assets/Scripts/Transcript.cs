@@ -32,4 +32,23 @@ public class Transcript : MonoBehaviour
         ScrollView_.GetComponent<ScrollRect>().content = ContentsUI[(int)GlobalSetting.currentSpot];
 
     }
+
+    public void ChooseContent(int index)
+    {
+        
+        for (int i = 0; i < ContentsUI.Length; i++)
+        {
+            if (i == index) ContentsUI[i].gameObject.SetActive(true);
+            else
+            {
+                ContentsUI[i].gameObject.SetActive(false);
+            }
+        }
+
+        ScrollView_.GetComponent<ScrollRect>().content = ContentsUI[(int)GlobalSetting.currentSpot];
+
+    }
+
+
+
 }

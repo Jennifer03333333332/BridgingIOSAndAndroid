@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 public class Giantbox : MonoBehaviour
 {
     private bool init = false;
@@ -13,10 +13,22 @@ public class Giantbox : MonoBehaviour
     public GameObject MeshPart;
     public MeshType mesh;//for debug mode current mesh
 
+    public GameObject video_obj;
+    private UnityEngine.Video.VideoPlayer vp;
+    //UnityEvent m_VPEvent;
     // Start is called before the first frame update
     void Start()
     {
+        print("Start");
         GameManager = GameObject.Find("GameManager");
+
+        vp = video_obj.GetComponent<UnityEngine.Video.VideoPlayer>();
+        
+
+        //if (m_VPEvent == null)
+        //    m_VPEvent = new UnityEvent();
+        
+
         //print("Scene init");//after Instantiate. maybe because I'm changing the local pos, so it won't move with the parent's place at locations
     }
 
@@ -83,6 +95,18 @@ public class Giantbox : MonoBehaviour
     //    }
 
     //}
+
+    public void StartVideo()
+    {
+        vp.Prepare();
+        vp.Play();
+        //StartCoroutine("PlayVideo");
+    }
+    IEnumerator PlayVideo()
+    {
+        yield return new WaitForSeconds(1f);
+        vp.Play();
+    }
 
     void StorePos()
     {
