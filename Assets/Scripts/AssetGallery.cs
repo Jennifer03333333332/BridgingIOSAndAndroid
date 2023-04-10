@@ -9,6 +9,33 @@ public class AssetGallery : MonoBehaviour
     private GameObject assetUI;
     [SerializeField]
     private GameObject eachAssetUI;
+    [SerializeField]
+    private GameObject StartUI;
+    //For model
+    [SerializeField]
+    private GameObject Model_WorldUI;
+    [SerializeField]
+    private GameObject Model_ScreenUI;
+    [SerializeField]
+    private GameObject model_txtUI;
+    [SerializeField]
+    public string[] model_assetTxt;
+    //end
+
+    //For video
+    [SerializeField]
+    private GameObject video_UI;
+    [SerializeField]
+    private GameObject[] video_assets;
+    [SerializeField]
+    private GameObject[] vp_assets;
+    [SerializeField]
+    private GameObject video_txtUI;
+    [SerializeField]
+    public string[] video_assetTxt;
+
+
+    //end
     private RawImage m_assetImg;
     [SerializeField]
     public Texture[] m_assetTex;
@@ -38,5 +65,39 @@ public class AssetGallery : MonoBehaviour
         m_assetImg.SetNativeSize();
         //txt
         txtUI.GetComponent<Text>().text = m_assetTxt[id];
+    }
+
+
+    public void OpenModel(int id)//0 1 2
+    {
+        StartUI.SetActive(false);
+        Model_WorldUI.SetActive(true);
+        Model_ScreenUI.SetActive(true);
+        //model
+        GlobalSetting.Cur_RotModel_ID_inAssetGallery = id;
+        //set each model
+        Model_WorldUI.SendMessage("ShowCurModel");
+        //txt
+        model_txtUI.GetComponent<Text>().text = model_assetTxt[id];
+        //close 
+        gameObject.SetActive(false);
+    }
+
+    public void OpenVideo(int id)
+    {
+        video_UI.SetActive(true);
+        //each video
+        for (int i = 0; i < video_assets.Length; i++)
+        {
+            bool isCur = (id == i);
+            video_assets[i].SetActive(isCur);
+
+        }
+        var vp = vp_assets[id].GetComponent<UnityEngine.Video.VideoPlayer>();
+        vp.Prepare();
+        vp.Play();
+        //txt
+        video_txtUI.GetComponent<Text>().text = video_assetTxt[id];
+
     }
 }

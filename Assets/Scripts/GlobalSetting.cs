@@ -62,6 +62,7 @@ public static class GlobalSetting
         {MeshType.Furnaces2, new ModelsSetting(Spots.three, new Vector3(-40f, -0.5f, 10), new Vector3(0, 0, 0), 1f, 1f, Quaternion.AngleAxis(45f, Vector3.up))},
     };
 
+    public static int Cur_RotModel_ID_inAssetGallery = 0;
 
     public static Dictionary<MeshType, ModelsSetting> spots_dictionary_before = new Dictionary<MeshType, ModelsSetting> {
         //MeshType, world position(world_pos), mesh local pos(pos), scale, delta, rotation degree for each
