@@ -34,4 +34,10 @@ public class Gallery : MonoBehaviour
         
 
     }
+
+
+    public void ChangeMuteIcon()
+    {
+
+    }
 }

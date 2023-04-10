@@ -94,7 +94,8 @@ public class AssetGallery : MonoBehaviour
 
         }
         var vp = vp_assets[id].GetComponent<UnityEngine.Video.VideoPlayer>();
-        vp.Prepare();
+        //var vp = video_assets[id].GetComponent<UnityEngine.Video.VideoPlayer>();
+        //vp.Prepare();
         vp.Play();
         //txt
         video_txtUI.GetComponent<Text>().text = video_assetTxt[id];
