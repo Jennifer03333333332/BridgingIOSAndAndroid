@@ -45,7 +45,7 @@ public class Transcript : MonoBehaviour
             }
         }
 
-        ScrollView_.GetComponent<ScrollRect>().content = ContentsUI[(int)GlobalSetting.currentSpot];
+        ScrollView_.GetComponent<ScrollRect>().content = ContentsUI[index];
 
     }
 

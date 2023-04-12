@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 
 public class GameManagerWithoutGPS : MonoBehaviour
@@ -24,8 +25,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
     /// <summary>
     /// for touch
     /// </summary>
-    [SerializeField]
-    private Camera arCamera;
+
     private Vector2 touchPosition;
 
 
@@ -89,7 +89,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
 
     }
 
-    //place gifts, 
+    //place gifts
     public void PressFoundDirBtn()
     {
 
@@ -197,9 +197,19 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void Ending()
     {
         UIManager.SendMessage("EndingUI");
-
         gameObject.SendMessage("PlayingSound", (int)GlobalSetting.currentSpot + 1);
+    }
 
+    public void ReturnToMain()
+    {
+        SceneManager.LoadScene("AnimeImage");
+        GlobalSetting.currentSpot = Spots.one;
+        GlobalSetting.StartGame = false;
+    }
 
+    public void OpenWebsite()
+    {
+        print("click");
+        Application.OpenURL("https://projects.etc.cmu.edu/bridging-time/");
     }
 }
