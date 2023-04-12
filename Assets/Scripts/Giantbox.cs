@@ -19,7 +19,7 @@ public class Giantbox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        print("Start");
+        //print("Start");
         GameManager = GameObject.Find("GameManager");
 
         vp = video_obj.GetComponent<UnityEngine.Video.VideoPlayer>();

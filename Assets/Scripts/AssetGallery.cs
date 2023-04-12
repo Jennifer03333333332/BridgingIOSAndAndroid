@@ -11,6 +11,8 @@ public class AssetGallery : MonoBehaviour
     private GameObject eachAssetUI;
     [SerializeField]
     private GameObject StartUI;
+    [SerializeField]
+    private GameObject EndUI;
     //For model
     [SerializeField]
     private GameObject Model_WorldUI;
@@ -70,7 +72,16 @@ public class AssetGallery : MonoBehaviour
 
     public void OpenModel(int id)//0 1 2
     {
-        StartUI.SetActive(false);
+        //
+        if (!GlobalSetting.StartGame)
+        {
+            StartUI.SetActive(false);
+        }
+        else
+        {
+            EndUI.SetActive(false);
+        }
+
         Model_WorldUI.SetActive(true);
         Model_ScreenUI.SetActive(true);
         //model
@@ -100,5 +111,17 @@ public class AssetGallery : MonoBehaviour
         //txt
         video_txtUI.GetComponent<Text>().text = video_assetTxt[id];
 
+    }
+
+    public void CloseGallery()
+    {
+        if (!GlobalSetting.StartGame)
+        {
+            StartUI.SetActive(true);
+        }
+        else
+        {
+            EndUI.SetActive(true);
+        }
     }
 }
