@@ -83,10 +83,18 @@ public class AudioManager : MonoBehaviour
         sound_List[3].audioSource.volume = v;
     }
 
-    public void MuteVolume(int index)
+    public void MuteVolume(int index)//Change mute to play/pause
     {
-        bool state = sound_List[index].audioSource.mute;
-        sound_List[index].audioSource.mute = !state;
+        //bool state = sound_List[index].audioSource.mute;
+        //sound_List[index].audioSource.mute = !state;
+        if (sound_List[index].audioSource.isPlaying)
+        {
+            sound_List[index].audioSource.Pause();
+        }
+        else
+        {
+            sound_List[index].audioSource.UnPause();
+        }
     }
 
 
