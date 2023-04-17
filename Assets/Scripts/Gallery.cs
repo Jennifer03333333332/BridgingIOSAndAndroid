@@ -18,7 +18,7 @@ public class Gallery : MonoBehaviour
     // cur 0: start. cur 1 : before
     public void RefreshContent(int cur)
     {
-        print((int)GlobalSetting.currentSpot);
+        //print((int)GlobalSetting.currentSpot);
         if(cur == 0)
         {
             ContentsUI[0].gameObject.SetActive(true);

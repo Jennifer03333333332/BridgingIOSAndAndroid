@@ -58,9 +58,14 @@ public class UpdateUI : MonoBehaviour
         GlobalSetting.StartGame = true;
         StartUI.SetActive(false);
         GameManager.SendMessage("StartTheGame");
+
+        //OpenMap();
+    }
+
+    public void OpenMap()
+    {
         MapUI.SetActive(true);
         MapUI.SendMessage("RefreshCurMap");
-        
     }
     //////////////////////Walking to the viewpoint
 

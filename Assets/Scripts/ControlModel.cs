@@ -17,7 +17,7 @@ public class ControlModel : MonoBehaviour
     private Vector3 initialScale;
     private Vector3 lastScale;
     //[SerializeField]
-    private Vector3 minScale = new Vector3(0.2f, 0.2f, 0.2f);
+    private Vector3 minScale = new Vector3(0.5f, 0.5f, 0.5f);
     private Vector3 maxScale = new Vector3(10.0f, 10.0f, 10.0f);
     // Start is called before the first frame update
     void Start()

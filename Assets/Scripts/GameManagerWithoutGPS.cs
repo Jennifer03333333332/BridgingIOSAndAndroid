@@ -82,7 +82,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void StartTheGame()
     {
         //Audio
-        gameObject.SendMessage("PlayingSound", "Intro");
+        //gameObject.SendMessage("PlayingSound", "Intro");
 
 
 
@@ -197,12 +197,12 @@ public class GameManagerWithoutGPS : MonoBehaviour
     public void Ending()
     {
         UIManager.SendMessage("EndingUI");
-        gameObject.SendMessage("PlayingSound", (int)GlobalSetting.currentSpot + 1);
+        //gameObject.SendMessage("PlayingSound", (int)GlobalSetting.currentSpot + 1);
     }
 
     public void ReturnToMain()
     {
-        SceneManager.LoadScene("AnimeImage");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GlobalSetting.currentSpot = Spots.one;
         GlobalSetting.StartGame = false;
     }
