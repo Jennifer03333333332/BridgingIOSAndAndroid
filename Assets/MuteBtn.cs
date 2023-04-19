@@ -13,12 +13,21 @@ public class MuteBtn : MonoBehaviour
 
     private bool IsMute = false;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         m_Img = this.gameObject.GetComponent<RawImage>();
-        print(m_Img);
+        //print(m_Img);
     }
 
+    public void ReturnToInitial()
+    {
+        if (this.gameObject.activeInHierarchy == true)
+        {
+            m_Img.texture = m_Tex[0];
+            IsMute = false;
+        }
+        
+    }
     
     public void PressMute()
     {

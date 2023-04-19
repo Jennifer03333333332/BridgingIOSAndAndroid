@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayingSound(int sound_index)
     {
-        sound_List[sound_index].audioSource.Play();
+        sound_List[sound_index].audioSource.Play();//would it be the same as UnPause?
 
     }
     public void StopPlayingSound(string _soundName)
@@ -61,7 +61,7 @@ public class AudioManager : MonoBehaviour
     {
         foreach (var obj in sound_List)
         {
-            obj.audioSource.Stop();
+            obj.audioSource.Pause();
         }
     }
 
