@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d58c52ff9f122a49a289c83a1611436, type: 3}
+  m_Name: BridgePrefabDb
+  m_EditorClassIdentifier: 
+  Entries:
+  - MeshId: GiantETCMeshID
+    Prefab: {fileID: 8597036760674038255, guid: a05bae6b5ce9fb348bfa2a4a1b7a96ef, type: 3}
+  - MeshId: TrainID
+    Prefab: {fileID: 5073465474917867043, guid: 87aef15d2d01ce642b3e9dd90c6d8589, type: 3}
+  - MeshId: FactoryID
+    Prefab: {fileID: 5869602606871314482, guid: a610733ec25f47049a69ebb3991bf169, type: 3}
