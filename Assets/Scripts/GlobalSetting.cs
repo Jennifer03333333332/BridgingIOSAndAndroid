@@ -11,7 +11,15 @@ public enum Spots {
     one, two, three, length
 }
 
-
+//public class AudioScyncArgs
+//{
+//    public bool mute;
+//    public float v;
+//    public AudioScyncArgs(bool m, float vol)
+//    {
+//        mute = m;v = vol;
+//    }
+//}
 public class ModelsSetting
 {
     public Spots spot_;
@@ -44,7 +52,8 @@ public static class GlobalSetting
     public static MeshType currentMesh = MeshType.Barge0;//for debug, set pos, scale..
 
     public static string debuginfo = "";
-
+    //Mute
+    public static bool[] IsMutes = { false, false, false, false };
     //3 spots
     public static Spots currentSpot = Spots.one;
 

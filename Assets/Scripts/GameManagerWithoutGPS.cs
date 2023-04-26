@@ -205,6 +205,7 @@ public class GameManagerWithoutGPS : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GlobalSetting.currentSpot = Spots.one;
         GlobalSetting.StartGame = false;
+        GlobalSetting.IsMutes = new bool[] { false, false, false, false };
     }
 
     public void OpenWebsite()

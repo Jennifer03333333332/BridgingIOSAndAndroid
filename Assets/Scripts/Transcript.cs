@@ -19,7 +19,7 @@ public class Transcript : MonoBehaviour
     // Update is called once per frame
     public void RefreshContent()
     {
-        print((int)GlobalSetting.currentSpot);
+        //print((int)GlobalSetting.currentSpot);
         for (int i = 0; i < ContentsUI.Length; i++)
         {
             if (i == (int)GlobalSetting.currentSpot) ContentsUI[i].gameObject.SetActive(true);

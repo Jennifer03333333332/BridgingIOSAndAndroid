@@ -65,6 +65,12 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void autoSetCurVolume(float v)
+    {
+        //print((int)GlobalSetting.currentSpot);
+        sound_List[(int)GlobalSetting.currentSpot].audioSource.volume = v;
+    }
+
     //For each audio
     public void SetIntroVolume(float v)
     {
@@ -83,11 +89,14 @@ public class AudioManager : MonoBehaviour
         sound_List[3].audioSource.volume = v;
     }
 
-    public void MuteVolume(int index)//Change mute to play/pause
+
+    public void AutoMuteVolume()//Change mute to play/pause
     {
         //bool state = sound_List[index].audioSource.mute;
         //sound_List[index].audioSource.mute = !state;
-        if (sound_List[index].audioSource.isPlaying)
+        int index = (int)GlobalSetting.currentSpot;
+        bool state = sound_List[index].audioSource.isPlaying;
+        if (state)
         {
             sound_List[index].audioSource.Pause();
         }
@@ -95,6 +104,25 @@ public class AudioManager : MonoBehaviour
         {
             sound_List[index].audioSource.UnPause();
         }
+        GlobalSetting.IsMutes[index] = !state;
+    }
+
+    public void MuteVolume(int index)//Change mute to play/pause
+    {
+        //bool state = sound_List[index].audioSource.mute;
+        //sound_List[index].audioSource.mute = !state;
+        bool state = sound_List[index].audioSource.isPlaying;
+
+        if (state)
+        {
+            sound_List[index].audioSource.Pause();
+        }
+        else
+        {
+            sound_List[index].audioSource.UnPause();
+        }
+        GlobalSetting.IsMutes[index] = !state;
+
     }
 
 
