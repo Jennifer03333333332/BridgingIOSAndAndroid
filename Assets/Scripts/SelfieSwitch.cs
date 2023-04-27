@@ -56,8 +56,8 @@ public class SelfieSwitch : MonoBehaviour
         }
 
         //newFacingDirection = CameraFacingDirection.User;
-        GlobalSetting.debuginfo = $"Switching ARCameraManager.requestedFacingDirection from {m_CameraManager.requestedFacingDirection} to {newFacingDirection}";
-        //Debug.Log($"Switching ARCameraManager.requestedFacingDirection from {m_CameraManager.requestedFacingDirection} to {newFacingDirection}");
+
+        Debug.Log($"Switching ARCameraManager.requestedFacingDirection from {m_CameraManager.requestedFacingDirection} to {newFacingDirection}");
         m_CameraManager.requestedFacingDirection = newFacingDirection;
     }
 }
