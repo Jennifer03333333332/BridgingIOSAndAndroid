@@ -5941,7 +5941,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "While rivers continue to be vital to the economy of the 1940s, \r\n, granting
+  m_text: "While rivers continue to be vital to the economy of the 1940s, \r\ngranting
     access to far away markets and providing flat banks on which to construct railroads,
     \r\nthey also pose a very practical challenge for residents and businesses operating
     within the city. \r\n\r\nMoving goods across the river is extremely time consuming,
@@ -23444,7 +23444,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <u>Credit</u>
+  m_text: <u>Credits</u>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -32261,7 +32261,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <u>Credit</u>
+  m_text: <u>Credits</u>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
