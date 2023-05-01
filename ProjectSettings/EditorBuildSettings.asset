@@ -5,27 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Main.unity
-    guid: 9f75becb29f557f4ab2246dbe3e17ae2
-  - enabled: 0
-    path: Assets/Scenes/OnlyTrain.unity
-    guid: e3408bda44031394fb8b5528adf19eb2
-  - enabled: 0
-    path: Assets/Scenes/WithoutRMinSpotOne.unity
-    guid: e25e9ba3161270f4eac87675ae4e1d0f
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/AnimeImage.unity
-    guid: 616a31fe4cf85c341ad15072caadb158
-  - enabled: 0
-    path: Assets/Scenes/SelfieScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/WithCaptionVideo.unity
-    guid: 26aca5a95ec6eaf4d86fad04dba5d41e
+    path: Assets/Scenes/Final.unity
+    guid: 6ceca410e192a8d449b0579edc1a2350
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 396e4d5118c62c8438d1fc9ae8c98172, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: c6d1ea487bf30fb4493d147dc98e1264, type: 2}
